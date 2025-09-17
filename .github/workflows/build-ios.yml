@@ -32,3 +32,9 @@ jobs:
         with:
           name: Asspp.ipa
           path: Asspp.ipa
+
+      - name: Update AltStore Repo
+        uses: actions/upload-artifact@v4
+        run: |
+          chmod +x Resources/Scripts/update.altstore.ci.sh 
+          ./Resources/Scripts/update.altstore.ci.sh  "$(pwd)" "$(pwd)/Asspp.ipa"

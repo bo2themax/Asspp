@@ -1,0 +1,24 @@
+{
+  "name": "Asspp",
+  "identifier": "com.qaq.Asspp",
+  "sourceURL": "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/altstore.json",
+  "apps": [
+    {
+      "name": "Asspp",
+      "bundleIdentifier": "wiki.qaq.Asspp",
+      "developerName": "Lakr233",
+      "subtitle": "Seamless multi-account App Store management",
+      "version": "2.3.18",
+      "versionDate": "2025-08-11T05:00:00+03:00",
+      "versionDescription": "Adopt Liquid Glass by @bo2themax in #37",
+      "downloadURL": "https://github.com/dvntm0/AltStore/releases/download/0.0.1/ytp_5.2b3+20.32.4.ipa",
+      "localizedDescription": "Seamless multi-account App Store management",
+      "iconURL": "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Asspp/App/Assets.xcassets/AppIcon.appiconset/asspp.png",
+      "tintColor": "E36678",
+      "screenshotURLs": [
+        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-0.png"
+      ],
+      "size": 115466859
+    }
+  ]
+}
