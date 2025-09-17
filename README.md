@@ -8,7 +8,16 @@ For a command-line or library version of Asspp, check out [ApplePackage](https:/
 
 ## 👀 Preview
 
-![Screenshot](./Resources/Screenshots/Screenshot-0.png)
+<img width="70" alt="image" src="./Resources/Screenshots/Screenshot-0.png" />
+<img width="70" alt="image" src="./Resources/Screenshots/Screenshot-1.png" />
+<img width="70" alt="image" src="./Resources/Screenshots/Screenshot-2.png" />
+<img width="70" alt="image" src="./Resources/Screenshots/Screenshot-3.png" />
+<img width="70" alt="image" src="./Resources/Screenshots/Screenshot-4.png" />
+<img width="70" alt="image" src="./Resources/Screenshots/Screenshot-5.png" />
+<img width="70" alt="image" src="./Resources/Screenshots/Screenshot-6.png" />
+<img width="70" alt="image" src="./Resources/Screenshots/Screenshot-7.png" />
+<img width="70" alt="image" src="./Resources/Screenshots/Screenshot-8.png" />
+<img width="70" alt="image" src="./Resources/Screenshots/Screenshot-9.png" />
 
 ## 🌟 Key Features
 
@@ -27,6 +36,7 @@ For a command-line or library version of Asspp, check out [ApplePackage](https:/
 
 - [iOS App Signer](https://dantheman827.github.io/ios-app-signer/)
 - Self-signed certificate for `app.localhost.qaq.wiki` (install in Settings)
+- Or [Open in SideStore](sidestore://source?url=https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/altstore.json)
 
 ### Troubleshooting
 
