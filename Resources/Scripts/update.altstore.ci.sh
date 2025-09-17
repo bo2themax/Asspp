@@ -106,6 +106,36 @@ cd "$SRCROOT"
 git config user.name "github-actions[bot]"
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+# Get the current branch name from environment or detect it
+CURRENT_BRANCH=""
+if [ -n "$GITHUB_HEAD_REF" ]; then
+    # This is a pull request - use the source branch
+    CURRENT_BRANCH="$GITHUB_HEAD_REF"
+    echo "[+] Detected pull request, using source branch: $CURRENT_BRANCH"
+elif [ -n "$GITHUB_REF_NAME" ]; then
+    # This is a push to a branch
+    CURRENT_BRANCH="$GITHUB_REF_NAME"
+    echo "[+] Detected push to branch: $CURRENT_BRANCH"
+else
+    # Fallback: try to detect from git
+    CURRENT_BRANCH=$(git branch --show-current)
+    if [ -z "$CURRENT_BRANCH" ]; then
+        echo "[-] Could not determine current branch"
+        exit 1
+    fi
+    echo "[+] Detected current branch from git: $CURRENT_BRANCH"
+fi
+
+echo "[+] Working on branch: $CURRENT_BRANCH"
+
+# Ensure we're on the correct branch (not detached HEAD)
+if git symbolic-ref -q HEAD >/dev/null 2>&1; then
+    echo "[+] Already on a branch"
+else
+    echo "[+] Creating and switching to branch: $CURRENT_BRANCH"
+    git checkout -b "$CURRENT_BRANCH" || git checkout "$CURRENT_BRANCH"
+fi
+
 # Add the changed file
 git add "$ALTSTORE_JSON"
 
@@ -125,7 +155,7 @@ else
     
     # Push the changes
     echo "[+] Pushing changes to repository..."
-    git push
+    git push origin "$CURRENT_BRANCH"
     
     echo "[+] Successfully committed and pushed AltStore repository updates!"
 fi
