@@ -161,18 +161,14 @@ struct ProductView: View {
 
     var accountSelector: some View {
         Section {
-            if vm.demoMode {
-                Text("Demo Mode Redacted")
-                    .redacted(reason: .placeholder)
-            } else {
-                Picker("Account", selection: $selection) {
-                    ForEach(eligibleAccounts) { account in
-                        Text(account.account.email)
-                            .id(account.id)
-                    }
+            Picker("Account", selection: $selection) {
+                ForEach(eligibleAccounts) { account in
+                    Text(account.account.email)
+                        .id(account.id)
                 }
-                .pickerStyle(.menu)
             }
+            .pickerStyle(.menu)
+            .redacted(reason: .placeholder, isEnabled: vm.demoMode)
         } header: {
             Text("Account")
         } footer: {

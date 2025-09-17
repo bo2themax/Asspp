@@ -48,19 +48,15 @@ struct AddDownloadView: View {
             }
 
             Section {
-                if avm.demoMode {
-                    Text("Demo Mode Redacted")
-                        .redacted(reason: .placeholder)
-                } else {
-                    Picker("Account", selection: $selection) {
-                        ForEach(avm.accounts) { account in
-                            Text(account.account.email)
-                                .id(account.id)
-                        }
+                Picker("Account", selection: $selection) {
+                    ForEach(avm.accounts) { account in
+                        Text(account.account.email)
+                            .id(account.id)
                     }
-                    .pickerStyle(.menu)
-                    .onAppear { selection = avm.accounts.first?.id ?? .init() }
                 }
+                .pickerStyle(.menu)
+                .onAppear { selection = avm.accounts.first?.id ?? .init() }
+                .redacted(reason: .placeholder, isEnabled: avm.demoMode)
             } header: {
                 Text("Account")
             } footer: {

@@ -24,13 +24,9 @@ struct AccountDetailView: View {
     var body: some View {
         List {
             Section {
-                if vm.demoMode {
-                    Text("88888888888")
-                        .redacted(reason: .placeholder)
-                } else {
-                    Text(account?.account.email ?? "")
-                        .onTapGesture { UIPasteboard.general.string = account?.account.email }
-                }
+                Text(account?.account.email ?? "")
+                    .onTapGesture { UIPasteboard.general.string = account?.account.email }
+                    .redacted(reason: .placeholder, isEnabled: vm.demoMode)
             } header: {
                 Text("Apple ID")
             } footer: {
@@ -45,14 +41,10 @@ struct AccountDetailView: View {
                 Text("App Store requires this country code to identify your package region.")
             }
             Section {
-                if vm.demoMode {
-                    Text("88888888888")
-                        .redacted(reason: .placeholder)
-                } else {
-                    Text(account?.account.directoryServicesIdentifier ?? "")
-                        .font(.system(.body, design: .monospaced))
-                        .onTapGesture { UIPasteboard.general.string = account?.account.email }
-                }
+                Text(account?.account.directoryServicesIdentifier ?? "")
+                    .font(.system(.body, design: .monospaced))
+                    .onTapGesture { UIPasteboard.general.string = account?.account.email }
+                    .redacted(reason: .placeholder, isEnabled: vm.demoMode)
             } header: {
                 Text("Directory Services ID")
             } footer: {
