@@ -6,22 +6,22 @@ SRCROOT="$1"
 IPA_PATH="$2"
 ARTIFACT_URL="$3"
 
-ALTSTORE_JSON="$SRCROOT/Resources/Repos/altstore.json"
+SIDESTORE_JSON="$SRCROOT/Resources/Repos/sidestore.json"
 
 if [ ! -f "$IPA_PATH" ]; then
     echo "[-] IPA file not found: $IPA_PATH"
     exit 1
 fi
 
-if [ ! -f "$ALTSTORE_JSON" ]; then
-    echo "[-] AltStore JSON not found: $ALTSTORE_JSON"
+if [ ! -f "$SIDESTORE_JSON" ]; then
+    echo "[-] SideStore JSON not found: $SIDESTORE_JSON"
     exit 1
 fi
 
-echo "[+] Updating AltStore repository..."
+echo "[+] Updating SideStore repository..."
 echo "[+] IPA Path: $IPA_PATH"
 echo "[+] Artifact URL: $ARTIFACT_URL"
-echo "[+] AltStore JSON: $ALTSTORE_JSON"
+echo "[+] SideStore JSON: $SIDESTORE_JSON"
 
 # Extract version from the IPA
 echo "[+] Extracting version from IPA..."
@@ -65,7 +65,7 @@ echo "[+] Current date: $CURRENT_DATE"
 FILE_SIZE=$(stat -f%z "$IPA_PATH")
 echo "[+] File size: $FILE_SIZE bytes"
 
-# Update AltStore JSON using jq if available, otherwise use sed
+# Update SideStore JSON using jq if available, otherwise use sed
 if command -v jq >/dev/null 2>&1; then
     echo "[+] Using jq to update JSON..."
     jq --arg version "$FULL_VERSION" \
@@ -73,17 +73,17 @@ if command -v jq >/dev/null 2>&1; then
        --arg url "$ARTIFACT_URL" \
        --argjson size "$FILE_SIZE" \
        '.apps[0].version = $version | .apps[0].versionDate = $date | .apps[0].downloadURL = $url | .apps[0].size = $size' \
-       "$ALTSTORE_JSON" > "$ALTSTORE_JSON.tmp" && mv "$ALTSTORE_JSON.tmp" "$ALTSTORE_JSON"
+       "$SIDESTORE_JSON" > "$SIDESTORE_JSON.tmp" && mv "$SIDESTORE_JSON.tmp" "$SIDESTORE_JSON"
 else
     echo "[+] Using sed to update JSON..."
     # Use sed as fallback (less reliable but should work)
-    sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$FULL_VERSION\"/" "$ALTSTORE_JSON"
-    sed -i '' "s/\"versionDate\": \"[^\"]*\"/\"versionDate\": \"$CURRENT_DATE\"/" "$ALTSTORE_JSON"
-    sed -i '' "s|\"downloadURL\": \"[^\"]*\"|\"downloadURL\": \"$ARTIFACT_URL\"|" "$ALTSTORE_JSON"
-    sed -i '' "s/\"size\": [0-9]*/\"size\": $FILE_SIZE/" "$ALTSTORE_JSON"
+    sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$FULL_VERSION\"/" "$SIDESTORE_JSON"
+    sed -i '' "s/\"versionDate\": \"[^\"]*\"/\"versionDate\": \"$CURRENT_DATE\"/" "$SIDESTORE_JSON"
+    sed -i '' "s|\"downloadURL\": \"[^\"]*\"|\"downloadURL\": \"$ARTIFACT_URL\"|" "$SIDESTORE_JSON"
+    sed -i '' "s/\"size\": [0-9]*/\"size\": $FILE_SIZE/" "$SIDESTORE_JSON"
 fi
 
-echo "[+] AltStore repository updated successfully!"
+echo "[+] SideStore repository updated successfully!"
 echo "[+] Version: $FULL_VERSION"
 echo "[+] Date: $CURRENT_DATE"  
 echo "[+] URL: $ARTIFACT_URL"
@@ -91,7 +91,7 @@ echo "[+] Size: $FILE_SIZE bytes"
 
 # Verify the JSON is still valid
 if command -v jq >/dev/null 2>&1; then
-    if ! jq empty "$ALTSTORE_JSON" 2>/dev/null; then
+    if ! jq empty "$SIDESTORE_JSON" 2>/dev/null; then
         echo "[-] Warning: Generated JSON may be invalid"
         exit 1
     fi
@@ -137,14 +137,14 @@ else
 fi
 
 # Add the changed file
-git add "$ALTSTORE_JSON"
+git add "$SIDESTORE_JSON"
 
 # Check if there are any changes to commit
 if git diff --staged --quiet; then
     echo "[+] No changes to commit"
 else
     # Commit the changes
-    git commit -m "Update AltStore repository - v$FULL_VERSION
+    git commit -m "Update SideStore repository - v$FULL_VERSION
 
 - Version: $FULL_VERSION
 - Date: $CURRENT_DATE
@@ -157,7 +157,7 @@ else
     echo "[+] Pushing changes to repository..."
     git push origin "$CURRENT_BRANCH"
     
-    echo "[+] Successfully committed and pushed AltStore repository updates!"
+    echo "[+] Successfully committed and pushed SideStore repository updates!"
 fi
 
 echo "[+] Done!"

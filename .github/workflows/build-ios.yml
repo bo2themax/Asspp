@@ -40,5 +40,5 @@ jobs:
 
       - name: Update AltStore Repo
         run: |
-          chmod +x Resources/Scripts/update.altstore.ci.sh 
-          ./Resources/Scripts/update.altstore.ci.sh "$(pwd)" "$(pwd)/Asspp.ipa" "${{ steps.upload.outputs.artifact-url }}"
+          chmod +x Resources/Scripts/update.sidestore.ci.sh 
+          ./Resources/Scripts/update.sidestore.ci.sh "$(pwd)" "$(pwd)/Asspp.ipa" "${{ steps.upload.outputs.artifact-url }}"
