@@ -36,7 +36,7 @@ For a command-line or library version of Asspp, check out [ApplePackage](https:/
 
 - [iOS App Signer](https://dantheman827.github.io/ios-app-signer/)
 - Self-signed certificate for `app.localhost.qaq.wiki` (install in Settings)
-- Or [Open in SideStore](sidestore://source?url=https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/altstore.json)
+- Or [Open in SideStore](sidestore://source?url=https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/sidestore.json)
 
 ### Troubleshooting
 

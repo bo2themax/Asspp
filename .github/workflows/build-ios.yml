@@ -38,7 +38,7 @@ jobs:
           name: Asspp.ipa
           path: Asspp.ipa
 
-      - name: Update AltStore Repo
+      - name: Update SideStore Repo
         run: |
           chmod +x Resources/Scripts/update.sidestore.ci.sh 
           ./Resources/Scripts/update.sidestore.ci.sh "$(pwd)" "$(pwd)/Asspp.ipa" "${{ steps.upload.outputs.artifact-url }}"
