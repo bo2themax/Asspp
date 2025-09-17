@@ -42,12 +42,8 @@ struct AccountView: View {
             Section {
                 ForEach(vm.accounts) { account in
                     NavigationLink(destination: AccountDetailView(accountId: account.id)) {
-                        if vm.demoMode {
-                            Text("88888888888")
-                                .redacted(reason: .placeholder)
-                        } else {
-                            Text(account.account.email)
-                        }
+                        Text(account.account.email)
+                            .redacted(reason: .placeholder, isEnabled: vm.demoMode)
                     }
                 }
                 if vm.accounts.isEmpty {

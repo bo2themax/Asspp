@@ -23,7 +23,7 @@ struct SettingView: View {
                 } header: {
                     Text("Demo Mode")
                 } footer: {
-                    Text("By enabling this, all your accounts will be redacted.")
+                    Text("By enabling this, all your accounts and sensitive information will be redacted.")
                 }
                 Section {
                     Button("Delete All Downloads", role: .destructive) {
@@ -36,8 +36,10 @@ struct SettingView: View {
                 }
                 Section {
                     Text(ProcessInfo.processInfo.hostName)
+                        .redacted(reason: .placeholder, isEnabled: vm.demoMode)
                     Text(ApplePackage.Configuration.deviceIdentifier)
                         .font(.system(.body, design: .monospaced))
+                        .redacted(reason: .placeholder, isEnabled: vm.demoMode)
                     Button("Open Settings") {
                         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                     }
