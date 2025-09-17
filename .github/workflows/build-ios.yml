@@ -28,13 +28,13 @@ jobs:
           ./Resources/Scripts/compile.release.mobile.ci.sh "$(pwd)" "$(pwd)/Asspp.ipa"
 
       - name: Upload Artifact
+        id: upload
         uses: actions/upload-artifact@v4
         with:
           name: Asspp.ipa
           path: Asspp.ipa
 
       - name: Update AltStore Repo
-        uses: actions/upload-artifact@v4
         run: |
           chmod +x Resources/Scripts/update.altstore.ci.sh 
-          ./Resources/Scripts/update.altstore.ci.sh  "$(pwd)" "$(pwd)/Asspp.ipa"
+          ./Resources/Scripts/update.altstore.ci.sh "$(pwd)" "$(pwd)/Asspp.ipa" "${{ steps.upload.outputs.artifact-url }}"
