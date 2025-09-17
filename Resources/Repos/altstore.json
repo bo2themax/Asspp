@@ -14,9 +14,18 @@
       "downloadURL": "https://release-assets.githubusercontent.com/github-production-release-asset/827603038/b1c07dc1-d0fb-40c7-9557-d22e8a8a6a38",
       "localizedDescription": "Seamless multi-account App Store management",
       "iconURL": "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Asspp/App/Assets.xcassets/AppIcon.appiconset/asspp.png",
-      "tintColor": "E36678",
+      "tintColor": "005392",
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-0.png"
+        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-0.png",
+        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-1.png",
+        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-2.png",
+        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-3.png",
+        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-4.png",
+        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-5.png",
+        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-6.png",
+        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-7.png",
+        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-8.png",
+        "https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Screenshots/Screenshot-9.png"
       ],
       "size": 115466859
     }
