@@ -2,6 +2,52 @@
 
 set -euo pipefail
 
+# Configure git user (use GitHub Actions bot)
+git config user.name "github-actions[bot]"
+git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+# Get the current branch name from environment or detect it
+CURRENT_BRANCH=""
+IS_PULL_REQUEST=false
+
+if [ -n "$GITHUB_HEAD_REF" ]; then
+    # This is a pull request - use the source branch
+    CURRENT_BRANCH="$GITHUB_HEAD_REF"
+    IS_PULL_REQUEST=true
+    echo "[+] Detected pull request, using source branch: $CURRENT_BRANCH"
+elif [ -n "$GITHUB_REF_NAME" ]; then
+    # This is a push to a branch
+    CURRENT_BRANCH="$GITHUB_REF_NAME"
+    echo "[+] Detected push to branch: $CURRENT_BRANCH"
+else
+    # Fallback: try to detect from git
+    CURRENT_BRANCH=$(git branch --show-current)
+    if [ -z "$CURRENT_BRANCH" ]; then
+        echo "[-] Could not determine current branch"
+        exit 1
+    fi
+    echo "[+] Detected current branch from git: $CURRENT_BRANCH"
+fi
+
+echo "[+] Working on branch: $CURRENT_BRANCH"
+
+# For pull requests, we need to properly checkout the source branch
+if [ "$IS_PULL_REQUEST" = true ]; then
+    echo "[+] Setting up pull request branch..."
+    # Fetch the latest state of the source branch
+    git fetch origin "$CURRENT_BRANCH"
+    # Check out the actual branch (not the merge commit)
+    git checkout "$CURRENT_BRANCH"
+else
+    # Ensure we're on the correct branch (not detached HEAD) for direct pushes
+    if git symbolic-ref -q HEAD >/dev/null 2>&1; then
+        echo "[+] Already on a branch"
+    else
+        echo "[+] Creating and switching to branch: $CURRENT_BRANCH"
+        git checkout -b "$CURRENT_BRANCH" || git checkout "$CURRENT_BRANCH"
+    fi
+fi
+
 SRCROOT="$1"
 IPA_PATH="$2"
 ARTIFACT_URL="$3"
@@ -102,53 +148,6 @@ fi
 echo "[+] Committing changes to repository..."
 cd "$SRCROOT"
 
-# Configure git user (use GitHub Actions bot)
-git config user.name "github-actions[bot]"
-git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-# Get the current branch name from environment or detect it
-CURRENT_BRANCH=""
-IS_PULL_REQUEST=false
-
-if [ -n "$GITHUB_HEAD_REF" ]; then
-    # This is a pull request - use the source branch
-    CURRENT_BRANCH="$GITHUB_HEAD_REF"
-    IS_PULL_REQUEST=true
-    echo "[+] Detected pull request, using source branch: $CURRENT_BRANCH"
-elif [ -n "$GITHUB_REF_NAME" ]; then
-    # This is a push to a branch
-    CURRENT_BRANCH="$GITHUB_REF_NAME"
-    echo "[+] Detected push to branch: $CURRENT_BRANCH"
-else
-    # Fallback: try to detect from git
-    CURRENT_BRANCH=$(git branch --show-current)
-    if [ -z "$CURRENT_BRANCH" ]; then
-        echo "[-] Could not determine current branch"
-        exit 1
-    fi
-    echo "[+] Detected current branch from git: $CURRENT_BRANCH"
-fi
-
-echo "[+] Working on branch: $CURRENT_BRANCH"
-
-# For pull requests, we need to properly checkout the source branch
-if [ "$IS_PULL_REQUEST" = true ]; then
-    echo "[+] Setting up pull request branch..."
-    # Fetch the latest state of the source branch
-    git fetch origin "$CURRENT_BRANCH"
-    # Check out the actual branch (not the merge commit)
-    git checkout "$CURRENT_BRANCH"
-    # Make sure we have the latest changes
-    git reset --hard "origin/$CURRENT_BRANCH"
-else
-    # Ensure we're on the correct branch (not detached HEAD) for direct pushes
-    if git symbolic-ref -q HEAD >/dev/null 2>&1; then
-        echo "[+] Already on a branch"
-    else
-        echo "[+] Creating and switching to branch: $CURRENT_BRANCH"
-        git checkout -b "$CURRENT_BRANCH" || git checkout "$CURRENT_BRANCH"
-    fi
-fi
 
 # Add the changed file
 git add "$SIDESTORE_JSON"
