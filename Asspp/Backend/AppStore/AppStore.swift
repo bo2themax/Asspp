@@ -21,11 +21,35 @@ class AppStore: ObservableObject {
     var accounts: [UserAccount]
 
     @MainActor
+    @PublishedPersist(
+        key: "DeviceIdentifier",
+        defaultValue: "",
+        keychain: "wiki.qaq.Asspp.DeviceIdentifier"
+    )
+    var deviceIdentifier: String
+
+    @MainActor
     @PublishedPersist(key: "DemoMode", defaultValue: false)
     var demoMode: Bool
 
+    @MainActor
     static let this = AppStore()
-    private init() {}
+
+    @MainActor
+    private init() {
+        if deviceIdentifier.isEmpty {
+            do {
+                let systemIdentifier = try ApplePackage.DeviceIdentifier.system()
+                deviceIdentifier = systemIdentifier
+            } catch {
+                logger.warning("failed to get system device identifier, falling back to random one: \(error)")
+                let randomIdentifier = ApplePackage.DeviceIdentifier.random()
+                deviceIdentifier = randomIdentifier
+            }
+        }
+        logger.info("using device identifier: \(deviceIdentifier)")
+        ApplePackage.Configuration.deviceIdentifier = deviceIdentifier
+    }
 
     @MainActor
     @discardableResult

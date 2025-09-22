@@ -66,23 +66,6 @@ try? FileManager.default.createDirectory(
 
 _ = ProcessInfo.processInfo.hostName
 
-do {
-    let deviceIdentifierKey = "wiki.qaq.asspp.device.identifier"
-    if UserDefaults.standard.string(forKey: deviceIdentifierKey) == nil {
-        do {
-            let systemIdentifier = try ApplePackage.DeviceIdentifier.system()
-            UserDefaults.standard.set(systemIdentifier, forKey: deviceIdentifierKey)
-        } catch {
-            logger.info("[?] failed to read system device identifier, using a random one")
-            let randomIdentifier = ApplePackage.DeviceIdentifier.random()
-            UserDefaults.standard.set(randomIdentifier, forKey: deviceIdentifierKey)
-        }
-    }
-    let identifier = UserDefaults.standard.string(forKey: deviceIdentifierKey)!
-    logger.info("using device identifier: \(identifier)")
-    ApplePackage.Configuration.deviceIdentifier = identifier
-}
-
 DiggerManager.shared.maxConcurrentTasksCount = 3
 DiggerManager.shared.startDownloadImmediately = true
 
