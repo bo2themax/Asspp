@@ -70,6 +70,9 @@
         }
       }
     },
+    "%lld" : {
+
+    },
     "%lld Results" : {
       "localizations" : {
         "en" : {
@@ -214,6 +217,9 @@
         }
       }
     },
+    "Accounts are stored securely in your Keychain and can be removed at any time from the detail view." : {
+
+    },
     "Acquire License" : {
       "localizations" : {
         "en" : {
@@ -261,6 +267,9 @@
           }
         }
       }
+    },
+    "Add an Apple ID to start downloading IPA packages." : {
+
     },
     "All Regions" : {
       "localizations" : {
@@ -523,6 +532,9 @@
           }
         }
       }
+    },
+    "Configured Accounts" : {
+
     },
     "Content - %@" : {
       "localizations" : {
@@ -824,6 +836,9 @@
           }
         }
       }
+    },
+    "Email" : {
+
     },
     "Email (Apple ID)" : {
       "localizations" : {
@@ -1212,6 +1227,9 @@
         }
       }
     },
+    "Manage the Apple IDs used for downloading IPA packages." : {
+
+    },
     "More" : {
       "localizations" : {
         "en" : {
@@ -1243,6 +1261,9 @@
           }
         }
       }
+    },
+    "No Accounts" : {
+
     },
     "No accounts yet." : {
       "localizations" : {
@@ -1587,6 +1608,9 @@
           }
         }
       }
+    },
+    "Region" : {
+
     },
     "Request Download" : {
       "localizations" : {
@@ -1949,6 +1973,9 @@
           }
         }
       }
+    },
+    "Storefront" : {
+
     },
     "Success" : {
       "localizations" : {

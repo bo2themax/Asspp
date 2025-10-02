@@ -59,4 +59,19 @@ extension View {
             self
         #endif
     }
+
+    @ViewBuilder
+    func onChangeCompat<Value: Equatable>(
+        of value: Value,
+        initial: Bool = false,
+        perform action: @escaping (Value) -> Void
+    ) -> some View {
+        if #available(iOS 18.0, macOS 15.0, *) {
+            onChange(of: value, initial: initial) { _, newValue in
+                action(newValue)
+            }
+        } else {
+            onChange(of: value, perform: action)
+        }
+    }
 }

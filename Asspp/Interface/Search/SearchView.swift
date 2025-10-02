@@ -64,7 +64,7 @@ struct SearchView: View {
         } label: {
             Label("Type", systemImage: searchType.iconName)
         }
-        .onChange(of: searchType) { _ in
+        .onChangeCompat(of: searchType) { _ in
             searchResult = []
         }
     }
@@ -100,7 +100,7 @@ struct SearchView: View {
                 }
             }
         }
-        .onChange(of: searchRegion) { _ in
+        .onChangeCompat(of: searchRegion) { _ in
             searchResult = []
         }
     }
