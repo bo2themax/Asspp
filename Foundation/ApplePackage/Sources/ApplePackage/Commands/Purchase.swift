@@ -44,7 +44,7 @@ public enum Purchase {
                 timeout: .init(
                     connect: .seconds(Configuration.timeoutConnect),
                     read: .seconds(Configuration.timeoutRead)
-                ),
+                )
             ).then { $0.httpVersion = .http1Only }
         )
         defer { _ = client.shutdown() }

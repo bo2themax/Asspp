@@ -40,9 +40,16 @@ struct SettingView: View {
                     Text(ApplePackage.Configuration.deviceIdentifier)
                         .font(.system(.body, design: .monospaced))
                         .redacted(reason: .placeholder, isEnabled: vm.demoMode)
-                    Button("Open Settings") {
-                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                    }
+                    #if canImport(UIKit)
+                        Button("Open Settings") {
+                            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                        }
+                    #endif
+                    #if canImport(AppKit) && !canImport(UIKit)
+                        Button("Open Settings") {
+                            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:")!)
+                        }
+                    #endif
                 } header: {
                     Text("Host Name")
                 } footer: {
@@ -61,15 +68,44 @@ struct SettingView: View {
                     }
                 #endif
 
+                #if canImport(AppKit) && !canImport(UIKit)
+                    Section {
+                        Button("Show Certificate in Finder") {
+                            if let caURL = Installer.caURL {
+                                NSWorkspace.shared.activateFileViewerSelecting([caURL])
+                            }
+                        }
+                    } header: {
+                        Text("SSL")
+                    } footer: {
+                        Text("On macOS, install certificates through System Preferences > Security & Privacy > General.")
+                    }
+                #endif
+
                 Section {
                     Button("@Lakr233") {
-                        UIApplication.shared.open(URL(string: "https://twitter.com/Lakr233")!)
+                        #if canImport(UIKit)
+                            UIApplication.shared.open(URL(string: "https://twitter.com/Lakr233")!)
+                        #endif
+                        #if canImport(AppKit) && !canImport(UIKit)
+                            NSWorkspace.shared.open(URL(string: "https://twitter.com/Lakr233")!)
+                        #endif
                     }
                     Button("Buy me a coffee! ☕️") {
-                        UIApplication.shared.open(URL(string: "https://github.com/sponsors/Lakr233/")!)
+                        #if canImport(UIKit)
+                            UIApplication.shared.open(URL(string: "https://github.com/sponsors/Lakr233/")!)
+                        #endif
+                        #if canImport(AppKit) && !canImport(UIKit)
+                            NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/Lakr233/")!)
+                        #endif
                     }
                     Button("Feedback & Contact") {
-                        UIApplication.shared.open(URL(string: "https://github.com/Lakr233/Asspp")!)
+                        #if canImport(UIKit)
+                            UIApplication.shared.open(URL(string: "https://github.com/Lakr233/Asspp")!)
+                        #endif
+                        #if canImport(AppKit) && !canImport(UIKit)
+                            NSWorkspace.shared.open(URL(string: "https://github.com/Lakr233/Asspp")!)
+                        #endif
                     }
                 } header: {
                     Text("About")
@@ -80,7 +116,12 @@ struct SettingView: View {
                     Button("Reset", role: .destructive) {
                         try? FileManager.default.removeItem(at: documentsDirectory)
                         try? FileManager.default.removeItem(at: temporaryDirectory)
-                        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                        #if canImport(UIKit)
+                            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                        #endif
+                        #if canImport(AppKit) && !canImport(UIKit)
+                            NSApp.terminate(nil)
+                        #endif
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             exit(0)
                         }

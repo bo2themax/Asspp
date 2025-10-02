@@ -92,9 +92,27 @@ App.main()
     }
 #endif
 
+#if canImport(AppKit) && !canImport(UIKit)
+    import AppKit
+
+    class AppDelegate: NSObject, NSApplicationDelegate {
+        func applicationShouldResignActive(_ notification: Notification) {
+            // Handle app going to background on macOS
+        }
+
+        func applicationDidBecomeActive(_ notification: Notification) {
+            // Handle app coming to foreground on macOS
+        }
+    }
+#endif
+
 private struct App: SwiftUI.App {
     #if canImport(UIKit)
         @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    #endif
+
+    #if canImport(AppKit) && !canImport(UIKit)
+        @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     #endif
 
     var body: some Scene {
