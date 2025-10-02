@@ -33,21 +33,27 @@ struct SearchView: View {
     }
 
     var body: some View {
-        if #available(iOS 16, *) {
-            // Temporary workaround for the auto-pop issue on iOS 16 when using NavigationView
-            // reference: https://stackoverflow.com/questions/66559814/swiftui-navigationlink-pops-out-by-itself#comment136786758_77588007
-            NavigationStack {
-                if #available(iOS 26.0, *) {
-                    modernContent
-                } else {
+        #if os(iOS)
+            if #available(iOS 16, *) {
+                // Temporary workaround for the auto-pop issue on iOS 16 when using NavigationView
+                // reference: https://stackoverflow.com/questions/66559814/swiftui-navigationlink-pops-out-by-itself#comment136786758_77588007
+                NavigationStack {
+                    if #available(iOS 26.0, *) {
+                        modernContent
+                    } else {
+                        legacyContent
+                    }
+                }
+            } else {
+                NavigationView {
                     legacyContent
                 }
             }
-        } else {
-            NavigationView {
+        #else
+            NavigationStack {
                 legacyContent
             }
-        }
+        #endif
     }
 
     var searchTypePicker: some View {
@@ -187,67 +193,61 @@ extension SearchView {
 
 // MARK: - Liquid Glass
 
-@available(iOS 26.0, *)
-extension SearchView {
-    var modernContent: some View {
-        content
-            .searchable(text: $searchKey, placement: searchablePlacement, prompt: "Keyword")
-            .onSubmit(of: .search) { search() }
-            .toolbarVisibility(navigationBarVisibility, for: .navigationBar)
-            .navigationTitle(Text("Search - \(searchRegion.uppercased())"))
-            .toolbar {
-                if navigationBarVisibility != .hidden {
-                    tools
-                }
-            }
-            .safeAreaBar(edge: .top) {
-                if navigationBarVisibility == .hidden {
-                    HStack {
-                        searchTypePicker
-                            .buttonStyle(.glass)
-                        Spacer()
-
-                        Menu {
-                            searchRegionView
-                        } label: {
-                            Label(searchRegion, systemImage: "globe")
-                        }
-                        .menuIndicator(.visible)
-                        .buttonStyle(.glass)
+#if os(iOS)
+    @available(iOS 26.0, *)
+    extension SearchView {
+        var modernContent: some View {
+            content
+                .searchable(text: $searchKey, placement: searchablePlacement, prompt: "Keyword")
+                .onSubmit(of: .search) { search() }
+                .toolbarVisibility(navigationBarVisibility, for: .navigationBar)
+                .navigationTitle(Text("Search - \(searchRegion.uppercased())"))
+                .toolbar {
+                    if navigationBarVisibility != .hidden {
+                        tools
                     }
-                    .padding([.bottom, .horizontal])
                 }
+                .safeAreaBar(edge: .top) {
+                    if navigationBarVisibility == .hidden {
+                        HStack {
+                            searchTypePicker
+                                .buttonStyle(.glass)
+                            Spacer()
+
+                            Menu {
+                                searchRegionView
+                            } label: {
+                                Label(searchRegion, systemImage: "globe")
+                            }
+                            .menuIndicator(.visible)
+                            .buttonStyle(.glass)
+                        }
+                        .padding([.bottom, .horizontal])
+                    }
+                }
+                .animation(.spring, value: searchResult)
+                .animation(.spring, value: searching)
+        }
+
+        var navigationBarVisibility: Visibility {
+            switch horizontalSizeClass {
+            case .compact:
+                .hidden
+            default:
+                .automatic
             }
-            .animation(.spring, value: searchResult)
-            .animation(.spring, value: searching)
-    }
+        }
 
-    var titleDisplayMode: NavigationBarItem.TitleDisplayMode {
-        if #available(iOS 26.0, *) {
-            .inline // weird animation when using large title
-        } else {
-            .automatic
+        var searchablePlacement: SearchFieldPlacement {
+            switch horizontalSizeClass {
+            case .compact:
+                .automatic
+            default:
+                .toolbar
+            }
         }
     }
-
-    var navigationBarVisibility: Visibility {
-        switch horizontalSizeClass {
-        case .compact:
-            .hidden
-        default:
-            .automatic
-        }
-    }
-
-    var searchablePlacement: SearchFieldPlacement {
-        switch horizontalSizeClass {
-        case .compact:
-            .automatic
-        default:
-            .toolbar
-        }
-    }
-}
+#endif
 
 #if DEBUG
     private typealias AppPackages = [AppStore.AppPackage]

@@ -69,9 +69,11 @@ _ = ProcessInfo.processInfo.hostName
 DiggerManager.shared.maxConcurrentTasksCount = 3
 DiggerManager.shared.startDownloadImmediately = true
 
-Task.detached {
-    _ = try await Installer(certificateAtPath: Installer.ca.path)
-}
+#if os(iOS)
+    Task.detached {
+        _ = try await Installer(certificateAtPath: Installer.ca.path)
+    }
+#endif
 
 App.main()
 
@@ -96,7 +98,7 @@ App.main()
     import AppKit
 
     class AppDelegate: NSObject, NSApplicationDelegate {
-        func applicationShouldResignActive(_ notification: Notification) {
+        func applicationWillResignActive(_ notification: Notification) {
             // Handle app going to background on macOS
         }
 
@@ -117,11 +119,16 @@ private struct App: SwiftUI.App {
 
     var body: some Scene {
         WindowGroup {
-            if #available(iOS 26.0, *) {
-                NewMainView()
-            } else {
+            #if os(macOS)
                 MainView()
-            }
+                    .frame(minWidth: 900, minHeight: 600)
+            #else
+                if #available(iOS 26.0, *) {
+                    NewMainView()
+                } else {
+                    MainView()
+                }
+            #endif
         }
     }
 }

@@ -7,7 +7,9 @@
 
 import ApplePackage
 import Logging
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#endif
 import Vapor
 
 class Installer: Identifiable, ObservableObject, @unchecked Sendable {

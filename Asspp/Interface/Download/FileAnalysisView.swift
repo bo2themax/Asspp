@@ -8,6 +8,18 @@
 import SwiftUI
 import ZIPFoundation
 
+#if canImport(UIKit)
+    import UIKit
+
+    typealias PlatformImage = UIImage
+#elseif canImport(AppKit) && !canImport(UIKit)
+    import AppKit
+
+    typealias PlatformImage = NSImage
+#else
+    typealias PlatformImage = AnyObject
+#endif
+
 struct FileAnalysisView: View {
     let packageURL: URL
     let relativePath: String
@@ -17,15 +29,26 @@ struct FileAnalysisView: View {
 
     @State var message = ""
     @State var extractedFile: URL?
-    @State var thumbnail: UIImage?
+    @State var thumbnail: PlatformImage?
+
+    var renderedThumbnail: Image? {
+        guard let thumbnail else { return nil }
+        #if canImport(UIKit)
+            return Image(uiImage: thumbnail)
+        #elseif canImport(AppKit) && !canImport(UIKit)
+            return Image(nsImage: thumbnail)
+        #else
+            return nil
+        #endif
+    }
 
     var body: some View {
         List {
             if let extractedFile {
                 Section {
                     VStack(alignment: .leading, spacing: 16) {
-                        if let thumbnail {
-                            Image(uiImage: thumbnail)
+                        if let image = renderedThumbnail {
+                            image
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 32, height: 32)

@@ -65,7 +65,7 @@ struct ProductHistoryView: View {
         .animation(.default, value: vm.loading)
         .navigationTitle("Version History")
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: toolbarPlacement) {
                 if vm.loading {
                     ProgressView()
                 } else {
@@ -109,5 +109,13 @@ struct ProductHistoryView: View {
                 await MainActor.run { vm.populateNextVersionItems() }
             }
         }
+    }
+
+    private var toolbarPlacement: ToolbarItemPlacement {
+        #if os(iOS)
+            .topBarTrailing
+        #else
+            .automatic
+        #endif
     }
 }

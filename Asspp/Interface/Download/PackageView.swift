@@ -9,6 +9,10 @@ import ApplePackage
 import Kingfisher
 import SwiftUI
 
+#if canImport(AppKit) && !canImport(UIKit)
+    import AppKit
+#endif
+
 struct PackageView: View {
     @StateObject var pkg: PackageManifest
 
@@ -19,8 +23,13 @@ struct PackageView: View {
     var url: URL { pkg.targetLocation }
 
     @Environment(\.dismiss) var dismiss
-    @State var installer: Installer?
-    @State var error: String = ""
+    #if os(iOS)
+        @State var installer: Installer?
+        @State var error: String = ""
+    #endif
+    #if os(macOS)
+        @State private var macControlMessage = ""
+    #endif
 
     @StateObject var vm = AppStore.this
     @ObservedObject var downloads = Downloads.this
@@ -36,41 +45,60 @@ struct PackageView: View {
             }
 
             if pkg.completed {
-                Section {
-                    Button("Install") {
-                        Task {
-                            do {
-                                installer = try await Installer(archive: archive, path: url)
-                            } catch {
-                                self.error = error.localizedDescription
+                #if os(iOS)
+                    Section {
+                        Button("Install") {
+                            Task {
+                                do {
+                                    installer = try await Installer(archive: archive, path: url)
+                                } catch {
+                                    self.error = error.localizedDescription
+                                }
                             }
                         }
-                    }
-                    .sheet(item: $installer) {
-                        installer?.destroy()
-                        installer = nil
-                    } content: {
-                        InstallerView(installer: $0)
-                    }
+                        .sheet(item: $installer) {
+                            installer?.destroy()
+                            installer = nil
+                        } content: {
+                            InstallerView(installer: $0)
+                        }
 
-                    Button("Install via AirDrop") {
-                        let newUrl = temporaryDirectory
-                            .appendingPathComponent("\(archive.software.bundleID)-\(archive.software.version)")
-                            .appendingPathExtension("ipa")
-                        try? FileManager.default.removeItem(at: newUrl)
-                        try? FileManager.default.copyItem(at: url, to: newUrl)
-                        AirDrop(items: [newUrl])
+                        Button("Install via AirDrop") {
+                            let newUrl = temporaryDirectory
+                                .appendingPathComponent("\(archive.software.bundleID)-\(archive.software.version)")
+                                .appendingPathExtension("ipa")
+                            try? FileManager.default.removeItem(at: newUrl)
+                            try? FileManager.default.copyItem(at: url, to: newUrl)
+                            AirDrop(items: [newUrl])
+                        }
+                    } header: {
+                        Text("Control")
+                    } footer: {
+                        if error.isEmpty {
+                            Text("Direct install may have limitations that cannot be bypassed. Use AirDrop if possible on another device.")
+                        } else {
+                            Text(error)
+                                .foregroundStyle(.red)
+                        }
                     }
-                } header: {
-                    Text("Control")
-                } footer: {
-                    if error.isEmpty {
-                        Text("Direct install may have limitations that cannot be bypassed. Use AirDrop if possible on another device.")
-                    } else {
-                        Text(error)
-                            .foregroundStyle(.red)
+                #elseif os(macOS)
+                    Section {
+                        Button("Show in Finder") {
+                            NSWorkspace.shared.activateFileViewerSelecting([url])
+                            macControlMessage = String(localized: "Finder opened.")
+                        }
+                        Button("Copy File Path") {
+                            let pasteboard = NSPasteboard.general
+                            pasteboard.clearContents()
+                            pasteboard.setString(url.path, forType: .string)
+                            macControlMessage = String(localized: "Path copied to clipboard.")
+                        }
+                    } header: {
+                        Text("Control")
+                    } footer: {
+                        Text(macControlMessage.isEmpty ? String(localized: "Use Finder to inspect the IPA on macOS.") : macControlMessage)
                     }
-                }
+                #endif
 
                 Section {
                     NavigationLink("Content Viewer") {

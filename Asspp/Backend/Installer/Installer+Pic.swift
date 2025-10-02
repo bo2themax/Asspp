@@ -36,7 +36,7 @@ extension Installer {
             else {
                 return Data()
             }
-            return bitmap.pngRepresentation ?? Data()
+            return bitmap.representation(using: .png, properties: [:]) ?? Data()
         #endif
 
         #if !canImport(UIKit) && !canImport(AppKit)

@@ -15,7 +15,9 @@ struct DownloadView: View {
             content
                 .navigationTitle("Downloads")
         }
+        #if os(iOS)
         .navigationViewStyle(.stack)
+        #endif
     }
 
     var content: some View {

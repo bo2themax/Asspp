@@ -30,8 +30,10 @@ struct AddDownloadView: View {
         List {
             Section {
                 TextField("Bundle ID", text: $bundleID)
+                #if os(iOS)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.none)
+                #endif
                     .focused($searchKeyFocused)
                     .onSubmit { startDownload() }
                 Picker("EntityType", selection: $searchType) {

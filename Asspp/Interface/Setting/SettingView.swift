@@ -71,9 +71,7 @@ struct SettingView: View {
                 #if canImport(AppKit) && !canImport(UIKit)
                     Section {
                         Button("Show Certificate in Finder") {
-                            if let caURL = Installer.caURL {
-                                NSWorkspace.shared.activateFileViewerSelecting([caURL])
-                            }
+                            NSWorkspace.shared.activateFileViewerSelecting([Installer.ca])
                         }
                     } header: {
                         Text("SSL")
@@ -134,6 +132,8 @@ struct SettingView: View {
             }
             .navigationTitle("Settings")
         }
+        #if os(iOS)
         .navigationViewStyle(.stack)
+        #endif
     }
 }
