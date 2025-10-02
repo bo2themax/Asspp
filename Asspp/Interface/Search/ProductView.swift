@@ -78,7 +78,7 @@ struct ProductView: View {
         .navigationTitle("Select Account")
         .alert("License Required", isPresented: $showLicenseAlert) {
             var confirmRole: ButtonRole?
-            if #available(iOS 26.0, *) {
+            if #available(iOS 26.0, macOS 26.0, *) {
                 confirmRole = .confirm
             }
 
