@@ -16,7 +16,20 @@ struct SettingView: View {
     @StateObject var vm = AppStore.this
 
     var body: some View {
-        NavigationView {
+        #if os(iOS)
+            NavigationView {
+                formContent
+            }
+            .navigationViewStyle(.stack)
+        #else
+            NavigationStack {
+                formContent
+            }
+        #endif
+    }
+
+    private var formContent: some View {
+        Group { // here to reduce some diff, you can remove this after review
             Form {
                 Section {
                     Toggle("Demo Mode", isOn: $vm.demoMode)
@@ -135,8 +148,5 @@ struct SettingView: View {
                 .formStyle(.grouped)
             #endif
         }
-        #if os(iOS)
-        .navigationViewStyle(.stack)
-        #endif
     }
 }
