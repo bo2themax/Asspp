@@ -55,10 +55,13 @@ struct ProductHistoryView: View {
                     .background(.ultraThinMaterial)
                 ProgressView()
                     .progressViewStyle(.circular)
+                #if os(macOS)
+                    .controlSize(.small)
+                #endif
             }
             .opacity(vm.loading ? 1 : 0)
             .animation(.default, value: vm.loading)
-            .ignoresSafeArea()
+            .ignoresSafeArea(edges: [.vertical])
         }
         .animation(.default, value: vm.versionIdentifiers)
         .animation(.default, value: vm.versionItems)
@@ -66,29 +69,35 @@ struct ProductHistoryView: View {
         .navigationTitle("Version History")
         .toolbar {
             ToolbarItem(placement: toolbarPlacement) {
-                if vm.loading {
-                    ProgressView()
-                } else {
-                    Menu {
-                        Button {
-                            vm.populateNextVersionItems()
-                        } label: {
-                            Label("Load More", systemImage: "arrow.down.circle")
-                        }
-                        .disabled(vm.isVersionItemsFullyLoaded)
-                        Divider()
-                        Button(role: .destructive) {
-                            vm.clearVersionItems()
-                            vm.populateVersionIdentifiers {
-                                await MainActor.run { vm.populateNextVersionItems() }
-                            }
-                        } label: {
-                            Label("Refresh", systemImage: "arrow.clockwise.circle")
+                Menu {
+                    Button {
+                        vm.populateNextVersionItems()
+                    } label: {
+                        Label("Load More", systemImage: "arrow.down.circle")
+                    }
+                    .disabled(vm.isVersionItemsFullyLoaded)
+                    Divider()
+                    Button(role: .destructive) {
+                        vm.clearVersionItems()
+                        vm.populateVersionIdentifiers {
+                            await MainActor.run { vm.populateNextVersionItems() }
                         }
                     } label: {
-                        Image(systemName: "ellipsis.circle")
+                        Label("Refresh", systemImage: "arrow.clockwise.circle")
                     }
-                    .disabled(vm.loading) // just make sure
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
+                .disabled(vm.loading) // just make sure
+                .opacity(vm.loading ? 0 : 1)
+                .overlay { // using overlay to maintain same size while loading
+                    if vm.loading {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                        #if os(macOS)
+                            .controlSize(.small)
+                        #endif
+                    }
                 }
             }
         }
