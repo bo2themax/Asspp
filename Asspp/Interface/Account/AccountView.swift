@@ -124,11 +124,11 @@ struct AccountView: View {
 
     #if !os(macOS)
         private var iOSBody: some View {
-            NavigationStack {
+            NavigationView {
                 List {
                     Section {
                         ForEach(vm.accounts) { account in
-                            NavigationLink(value: account.id) {
+                            NavigationLink(destination: AccountDetailView(accountId: account.id)) {
                                 Text(account.account.email)
                                     .redacted(reason: .placeholder, isEnabled: vm.demoMode)
                             }
@@ -141,9 +141,6 @@ struct AccountView: View {
                     } footer: {
                         Text("Your accounts are saved in your Keychain and will be synced across devices with the same iCloud account signed in.")
                     }
-                }
-                .navigationDestination(for: AppStore.UserAccount.ID.self) { id in
-                    AccountDetailView(accountId: id)
                 }
                 .navigationTitle("Accounts")
                 .toolbar {

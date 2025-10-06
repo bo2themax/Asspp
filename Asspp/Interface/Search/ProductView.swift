@@ -169,6 +169,10 @@ struct ProductView: View {
     var buttons: some View {
         Section {
             if let req = dvm.downloadRequest(forArchive: archive.package) {
+                // We intentionally don't use `navigationDestination(isPresented:destination:)` here on iOS 16+.
+                // To use it, we'd need to move the modifier out of this List and onto the enclosing `NavigationStack`,
+                // which would require intrusive changes at the root. If we drop the auto-show-on-download behaviour though,
+                // adopting `navigationDestination` would be feasible.
                 NavigationLink(destination: PackageView(pkg: req), isActive: $showDownloadPage) {
                     Text("Show Download")
                 }
