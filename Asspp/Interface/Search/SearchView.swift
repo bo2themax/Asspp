@@ -133,7 +133,7 @@ struct SearchView: View {
     }
 
     var content: some View {
-        Form {
+        FormOnTahoeList {
             if searching || !searchResult.isEmpty {
                 Section(searching ? "Searching..." : "\(searchResult.count) Results") {
                     ForEach(searchResult) { item in
@@ -146,9 +146,6 @@ struct SearchView: View {
                 .transition(.opacity)
             }
         }
-        #if os(macOS)
-        .formStyle(.grouped)
-        #endif
         .animation(.spring, value: searchResult)
     }
 

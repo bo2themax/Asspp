@@ -75,3 +75,31 @@ extension View {
         }
     }
 }
+
+struct FormOnTahoeList<Content: View>: View {
+    let content: Content
+
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    var body: some View {
+        #if os(macOS) && compiler(>=6.2)
+            if #available(macOS 26.0, *) {
+                Form {
+                    content
+                }
+                .formStyle(.grouped)
+            } else {
+                List {
+                    content
+                }
+                // footers on Sequoia looks weird ...
+            }
+        #else
+            List {
+                content
+            }
+        #endif
+    }
+}

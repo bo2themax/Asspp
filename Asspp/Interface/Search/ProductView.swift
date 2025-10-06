@@ -55,7 +55,7 @@ struct ProductView: View {
     }
 
     var body: some View {
-        Form {
+        FormOnTahoeList {
             accountSelector
             buttons
             packageHeader
@@ -72,18 +72,17 @@ struct ProductView: View {
             }
             pricing
         }
-        #if os(macOS)
-        .formStyle(.grouped)
-        #endif
         .onAppear {
             selection = eligibleAccounts.first?.id ?? .init()
         }
         .navigationTitle("Select Account")
         .alert("License Required", isPresented: $showLicenseAlert) {
             var confirmRole: ButtonRole?
-            if #available(iOS 26.0, macOS 26.0, *) {
-                confirmRole = .confirm
-            }
+            #if compiler(>=6.2)
+                if #available(iOS 26.0, macOS 26.0, *) {
+                    confirmRole = .confirm
+                }
+            #endif
 
             return Group {
                 Button("Acquire License", role: confirmRole) {
@@ -172,7 +171,7 @@ struct ProductView: View {
     var buttons: some View {
         Section {
             if let req = dvm.downloadRequest(forArchive: archive.package) {
-                // We intentionally don't use `navigationDestination(isPresented:destination:)` here on iOS 16+.
+                // We intentionally don't use `navigationDestination(isPresented:destination:)` here on iOS 16+ & macOS 13+.
                 // To use it, we'd need to move the modifier out of this List and onto the enclosing `NavigationStack`,
                 // which would require intrusive changes at the root. If we drop the auto-show-on-download behaviour though,
                 // adopting `navigationDestination` would be feasible.

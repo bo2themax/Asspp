@@ -45,7 +45,7 @@ struct FileListView: View {
     }
 
     var body: some View {
-        Form {
+        FormOnTahoeList {
             Section {
                 ForEach(interfaceItems, id: \.path) { item in
                     switch item.type {
@@ -77,7 +77,6 @@ struct FileListView: View {
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         #else
         .searchable(text: $searchText)
-        .formStyle(.grouped)
         #endif
         .animation(.spring, value: items)
         .onAppear {

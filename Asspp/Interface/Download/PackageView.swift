@@ -35,7 +35,7 @@ struct PackageView: View {
     @ObservedObject var downloads = Downloads.this
 
     var body: some View {
-        Form {
+        FormOnTahoeList {
             Section {
                 ArchivePreviewView(archive: archive)
             } header: {
@@ -162,8 +162,5 @@ struct PackageView: View {
             }
         }
         .navigationTitle(pkg.package.software.name)
-        #if os(macOS)
-            .formStyle(.grouped)
-        #endif
     }
 }

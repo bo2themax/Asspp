@@ -23,7 +23,7 @@ struct AddAccountView: View {
     @State var openProgress: Bool = false
 
     var body: some View {
-        Form {
+        FormOnTahoeList {
             Section {
                 TextField("Email (Apple ID)", text: $email)
                 #if os(iOS)
@@ -101,9 +101,6 @@ struct AddAccountView: View {
             .listStyle(.insetGrouped)
         #endif
             .navigationTitle("Add Account")
-        #if os(macOS)
-            .formStyle(.grouped)
-        #endif
     }
 
     func authenticate() {

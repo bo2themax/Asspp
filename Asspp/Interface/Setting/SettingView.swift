@@ -30,7 +30,7 @@ struct SettingView: View {
 
     private var formContent: some View {
         Group { // here to reduce some diff, you can remove this after review
-            Form {
+            FormOnTahoeList {
                 Section {
                     Toggle("Demo Mode", isOn: $vm.demoMode)
                 } header: {
@@ -144,9 +144,6 @@ struct SettingView: View {
                 }
             }
             .navigationTitle("Settings")
-            #if os(macOS)
-                .formStyle(.grouped)
-            #endif
         }
     }
 }

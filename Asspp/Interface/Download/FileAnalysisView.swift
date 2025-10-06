@@ -43,7 +43,7 @@ struct FileAnalysisView: View {
     }
 
     var body: some View {
-        Form {
+        FormOnTahoeList {
             if let extractedFile {
                 Section {
                     VStack(alignment: .leading, spacing: 16) {
@@ -102,9 +102,6 @@ struct FileAnalysisView: View {
             try? FileManager.default.removeItem(at: tempDir)
         }
         .navigationTitle("Contents")
-        #if os(macOS)
-            .formStyle(.grouped)
-        #endif
     }
 
     func loadContents() async throws {

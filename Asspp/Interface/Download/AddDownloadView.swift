@@ -27,7 +27,7 @@ struct AddDownloadView: View {
     }
 
     var body: some View {
-        Form {
+        FormOnTahoeList {
             Section {
                 TextField("Bundle ID", text: $bundleID)
                 #if os(iOS)
@@ -82,9 +82,6 @@ struct AddDownloadView: View {
             }
         }
         .navigationTitle("Direct Download")
-        #if os(macOS)
-            .formStyle(.grouped)
-        #endif
     }
 
     func startDownload() {
