@@ -34,6 +34,7 @@ struct WelcomeView: View {
                     } label: {
                         Image(systemName: "questionmark.circle")
                     }
+                    .buttonStyle(.borderless)
                     .popover(isPresented: $openInstruction) {
                         SimpleInstruction()
                             .padding(32)
