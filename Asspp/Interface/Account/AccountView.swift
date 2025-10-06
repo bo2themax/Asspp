@@ -37,6 +37,9 @@ struct AccountView: View {
                 .toolbar { macToolbar }
             }
             .sheet(isPresented: $addAccount) { AddAccountView() }
+            #if os(macOS)
+                .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
+            #endif
         }
 
         @ViewBuilder

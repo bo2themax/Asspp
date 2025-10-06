@@ -104,6 +104,9 @@ App.main()
 
         func applicationDidBecomeActive(_ notification: Notification) {
             // Handle app coming to foreground on macOS
+            if let mainWindow = NSApplication.shared.windows.first(where: { $0.identifier?.rawValue == "main-window" }) {
+                mainWindow.styleMask = [.titled, .closable, .fullSizeContentView, .fullScreen]
+            }
         }
     }
 #endif
@@ -118,7 +121,7 @@ private struct App: SwiftUI.App {
     #endif
 
     var body: some Scene {
-        WindowGroup {
+        WindowGroup(id: "main-window") {
             #if os(macOS)
                 MainView()
                     .frame(minWidth: 900, minHeight: 600)
