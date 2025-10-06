@@ -55,7 +55,7 @@ struct ProductView: View {
     }
 
     var body: some View {
-        List {
+        Form {
             accountSelector
             buttons
             packageHeader
@@ -72,6 +72,9 @@ struct ProductView: View {
             }
             pricing
         }
+        #if os(macOS)
+        .formStyle(.grouped)
+        #endif
         .onAppear {
             selection = eligibleAccounts.first?.id ?? .init()
         }

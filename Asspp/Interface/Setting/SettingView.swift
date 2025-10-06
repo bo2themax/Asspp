@@ -17,7 +17,7 @@ struct SettingView: View {
 
     var body: some View {
         NavigationView {
-            List {
+            Form {
                 Section {
                     Toggle("Demo Mode", isOn: $vm.demoMode)
                 } header: {
@@ -131,6 +131,9 @@ struct SettingView: View {
                 }
             }
             .navigationTitle("Settings")
+            #if os(macOS)
+                .formStyle(.grouped)
+            #endif
         }
         #if os(iOS)
         .navigationViewStyle(.stack)

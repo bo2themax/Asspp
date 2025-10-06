@@ -14,7 +14,7 @@ struct ProductHistoryView: View {
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        List {
+        Form {
             ForEach(vm.versionIdentifiers, id: \.self) { key in
                 if let aid = vm.accountIdentifier, let pkg = vm.package(for: key) {
                     Menu {
@@ -48,6 +48,9 @@ struct ProductHistoryView: View {
                 }
             }
         }
+        #if os(macOS)
+        .formStyle(.grouped)
+        #endif
         .overlay {
             ZStack {
                 Rectangle()

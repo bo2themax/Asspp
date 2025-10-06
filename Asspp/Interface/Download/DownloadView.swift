@@ -21,7 +21,7 @@ struct DownloadView: View {
     }
 
     var content: some View {
-        List {
+        Form {
             if vm.manifests.isEmpty {
                 Text("No downloads yet.")
             } else {
@@ -33,6 +33,9 @@ struct DownloadView: View {
                 Image(systemName: "plus")
             }
         }
+        #if os(macOS)
+        .formStyle(.grouped)
+        #endif
     }
 
     var packageList: some View {
