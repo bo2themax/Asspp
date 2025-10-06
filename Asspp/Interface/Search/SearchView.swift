@@ -74,7 +74,7 @@ struct SearchView: View {
     }
 
     @ViewBuilder
-    var searchRegionView: some View {
+    func searchRegionView(isAllRegionsWrappedInMenu: Bool = true) -> some View {
         Group {
             if !possibleRegionKeys.isEmpty {
                 buildPickView(
@@ -82,14 +82,23 @@ struct SearchView: View {
                 ) {
                     Label("Available Regions", systemImage: "checkmark.seal")
                 }
-                Menu {
+                if isAllRegionsWrappedInMenu {
+                    Menu {
+                        buildPickView(
+                            for: regionKeys
+                        ) {
+                            EmptyView()
+                        }
+                    } label: {
+                        Label("All Regions", systemImage: "globe")
+                    }
+                } else {
+                    // Wrapping in Menu on macOS will cause an addition hover to show all the regions
                     buildPickView(
                         for: regionKeys
                     ) {
-                        EmptyView()
+                        Label("All Regions", systemImage: "globe")
                     }
-                } label: {
-                    Label("All Regions", systemImage: "globe")
                 }
             } else {
                 // Reduce one interaction
@@ -112,7 +121,11 @@ struct SearchView: View {
                 searchTypePicker
                     .pickerStyle(.menu)
                 Divider()
-                searchRegionView
+                #if os(iOS)
+                    searchRegionView()
+                #else
+                    searchRegionView(isAllRegionsWrappedInMenu: false)
+                #endif
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
@@ -120,7 +133,7 @@ struct SearchView: View {
     }
 
     var content: some View {
-        List {
+        FormOnTahoeList {
             if searching || !searchResult.isEmpty {
                 Section(searching ? "Searching..." : "\(searchResult.count) Results") {
                     ForEach(searchResult) { item in
@@ -215,7 +228,7 @@ extension SearchView {
                             Spacer()
 
                             Menu {
-                                searchRegionView
+                                searchRegionView()
                             } label: {
                                 Label(searchRegion, systemImage: "globe")
                             }

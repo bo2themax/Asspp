@@ -45,7 +45,7 @@ struct FileListView: View {
     }
 
     var body: some View {
-        List {
+        FormOnTahoeList {
             Section {
                 ForEach(interfaceItems, id: \.path) { item in
                     switch item.type {

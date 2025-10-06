@@ -43,7 +43,7 @@ struct FileAnalysisView: View {
     }
 
     var body: some View {
-        List {
+        FormOnTahoeList {
             if let extractedFile {
                 Section {
                     VStack(alignment: .leading, spacing: 16) {

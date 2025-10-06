@@ -23,7 +23,7 @@ struct AddAccountView: View {
     @State var openProgress: Bool = false
 
     var body: some View {
-        List {
+        FormOnTahoeList {
             Section {
                 TextField("Email (Apple ID)", text: $email)
                 #if os(iOS)

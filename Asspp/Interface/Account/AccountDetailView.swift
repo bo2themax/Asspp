@@ -29,7 +29,7 @@ struct AccountDetailView: View {
     @State var rotatingHint = ""
 
     var body: some View {
-        List {
+        FormOnTahoeList {
             Section {
                 Text(account?.account.email ?? "")
                     .onTapGesture { copyToClipboard(account?.account.email) }

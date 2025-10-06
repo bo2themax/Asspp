@@ -33,7 +33,7 @@ func AirDrop(
             activityItems: items,
             applicationActivities: nil
         )
-        vc.excludedActivityTypes = excludedActivityTypes
+        vc.excludedActivityTypes = excludedActivityTypes?.map(UIActivity.ActivityType.init(rawValue:))
         vc.popoverPresentationController?.sourceView = source.view
         vc.popoverPresentationController?.sourceRect = newView.frame
         source.present(vc, animated: true) {

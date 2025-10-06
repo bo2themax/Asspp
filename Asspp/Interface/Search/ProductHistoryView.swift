@@ -14,7 +14,7 @@ struct ProductHistoryView: View {
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        List {
+        FormOnTahoeList {
             ForEach(vm.versionIdentifiers, id: \.self) { key in
                 if let aid = vm.accountIdentifier, let pkg = vm.package(for: key) {
                     Menu {

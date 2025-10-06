@@ -29,6 +29,7 @@ struct PackageDisplayView: View {
                             .font(.system(.footnote, design: .rounded))
                             .padding(.leading, 10)
                     }
+                    .buttonStyle(.borderless)
                     .background(LinearGradient(
                         gradient: Gradient(colors: [.clear, .white]),
                         startPoint: .init(x: 0, y: 0.5),

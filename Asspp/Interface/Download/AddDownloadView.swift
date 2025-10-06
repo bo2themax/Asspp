@@ -27,7 +27,7 @@ struct AddDownloadView: View {
     }
 
     var body: some View {
-        List {
+        FormOnTahoeList {
             Section {
                 TextField("Bundle ID", text: $bundleID)
                 #if os(iOS)

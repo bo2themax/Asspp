@@ -34,6 +34,7 @@ struct WelcomeView: View {
                     } label: {
                         Image(systemName: "questionmark.circle")
                     }
+                    .buttonStyle(.borderless)
                     .popover(isPresented: $openInstruction) {
                         SimpleInstruction()
                             .padding(32)
@@ -51,5 +52,8 @@ struct WelcomeView: View {
                 .opacity(0.25)
                 .ignoresSafeArea()
         )
+        #if os(macOS)
+        .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
+        #endif
     }
 }

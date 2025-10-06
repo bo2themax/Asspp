@@ -35,7 +35,7 @@ struct PackageView: View {
     @ObservedObject var downloads = Downloads.this
 
     var body: some View {
-        List {
+        FormOnTahoeList {
             Section {
                 ArchivePreviewView(archive: archive)
             } header: {

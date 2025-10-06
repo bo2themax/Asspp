@@ -16,8 +16,21 @@ struct SettingView: View {
     @StateObject var vm = AppStore.this
 
     var body: some View {
-        NavigationView {
-            List {
+        #if os(iOS)
+            NavigationView {
+                formContent
+            }
+            .navigationViewStyle(.stack)
+        #else
+            NavigationStack {
+                formContent
+            }
+        #endif
+    }
+
+    private var formContent: some View {
+        Group { // here to reduce some diff, you can remove this after review
+            FormOnTahoeList {
                 Section {
                     Toggle("Demo Mode", isOn: $vm.demoMode)
                 } header: {
@@ -132,8 +145,5 @@ struct SettingView: View {
             }
             .navigationTitle("Settings")
         }
-        #if os(iOS)
-        .navigationViewStyle(.stack)
-        #endif
     }
 }
