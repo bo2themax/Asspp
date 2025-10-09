@@ -66,7 +66,8 @@
         var installerContent: some View {
             Picker(selection: $dm.selectedDeviceID) {
                 ForEach(dm.devices) { d in
-                    Button {} label: { // little hack to show rich menu
+                    // Using an empty Button as the Picker row to set subtitles
+                    Button {} label: {
                         Text(d.name)
                         Text(String(localized: "\(d.model)\n\(d.type.osVersionPrefix) \(d.osVersionNumber)(\(d.osBuildUpdate))"))
                     }
