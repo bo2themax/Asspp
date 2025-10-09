@@ -52,7 +52,7 @@
             } footer: {
                 VStack {
                     if let installed {
-                        Text("Existing Version: \(installed.version) (\(installed.bundleVersion))")
+                        Text("Installed Version: \(installed.version) (\(installed.bundleVersion))")
                     }
 
                     if let hint = dm.hint {
