@@ -920,9 +920,6 @@
         }
       }
     },
-    "Finder opened." : {
-
-    },
     "Grant local network permission to install apps and communicate with system services." : {
       "localizations" : {
         "en" : {
@@ -1461,9 +1458,6 @@
           }
         }
       }
-    },
-    "Path copied to clipboard." : {
-
     },
     "Pause" : {
       "localizations" : {
@@ -2152,9 +2146,6 @@
           }
         }
       }
-    },
-    "Use Finder to inspect the IPA on macOS." : {
-
     },
     "Version %@" : {
       "comment" : "A label displaying the version and release date of an app. The first argument is the version of the app. The second argument is the release date of the app.",
