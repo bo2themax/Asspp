@@ -37,15 +37,17 @@
             }
         }
 
-        func install(ipa: URL, to device: DeviceCTL.Device) async {
+        func install(ipa: URL, to device: DeviceCTL.Device) async -> Bool {
             resetError()
             let process = Process()
             installingProcess = process
             defer { installingProcess = nil }
             do {
                 try await DeviceCTL.install(ipa: ipa, to: device, process: process)
+                return true
             } catch {
                 updateError(error)
+                return false
             }
         }
 

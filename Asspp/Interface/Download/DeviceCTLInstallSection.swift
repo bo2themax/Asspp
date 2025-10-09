@@ -14,6 +14,7 @@
         @State var installed: DeviceCTL.App?
         @State var isLoading = false
         @State var wiggle: Bool = false
+        @State var installSuccess = false
         let ipaFile: URL
         let software: Software
         var body: some View {
@@ -27,8 +28,15 @@
                 installerContent
             } header: {
                 HStack {
-                    Text("Control")
+                    Label("Control", systemImage: installSuccess ? "checkmark" : dm.selectedDevice?.type.symbol ?? "")
+                        .contentTransition(.symbolEffect(.replace))
                     Spacer()
+
+                    if dm.installingProcess != nil || isLoading {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .controlSize(.small)
+                    }
                     if !dm.devices.isEmpty {
                         Button {
                             wiggle.toggle()
@@ -70,12 +78,6 @@
                         installOrStop()
                     }
                     .disabled(dm.selectedDevice == nil || isLoading || dm.hint?.isRed == true)
-
-                    if dm.installingProcess != nil || isLoading {
-                        ProgressView()
-                            .progressViewStyle(.circular)
-                            .controlSize(.small)
-                    }
                 }
             }
             .task(id: dm.selectedDevice?.id) {
@@ -90,7 +92,10 @@
             }
             guard let device = dm.selectedDevice else { return }
             Task {
-                await dm.install(ipa: ipaFile, to: device)
+                installSuccess = await dm.install(ipa: ipaFile, to: device)
+                await fetchInstalledApp()
+                try? await Task.sleep(for: .seconds(1))
+                installSuccess = false // hide symbol
             }
         }
 
