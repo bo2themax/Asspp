@@ -124,7 +124,7 @@
                     "--app-bundle-id", app.bundleIdentifier,
                     "--width", "1024", "--height", "1024",
                     "--scale", "1",
-                    "--destination", iconFile.path, // with NOT be prefixed
+                    "--destination", iconFile.path, // will NOT be prefixed
                 ]
                 guard let codable: AnyCodable = getJson(arguments) else {
                     return iconFile
