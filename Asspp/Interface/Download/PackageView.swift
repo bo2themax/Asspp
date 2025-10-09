@@ -45,6 +45,9 @@ struct PackageView: View {
             }
 
             if pkg.completed {
+                #if os(macOS)
+                    DeviceCTLInstallSection(ipaFile: url, software: pkg.package.software)
+                #endif
                 #if os(iOS)
                     Section {
                         Button("Install") {
@@ -174,5 +177,10 @@ struct PackageView: View {
             }
         }
         .navigationTitle(pkg.package.software.name)
+        .task {
+            #if os(macOS)
+                await DeviceManager.this.loadDevices()
+            #endif
+        }
     }
 }

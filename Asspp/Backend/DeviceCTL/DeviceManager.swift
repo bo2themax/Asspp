@@ -1,0 +1,99 @@
+//
+//  DeviceManager.swift
+//  Asspp
+//
+//  Created by luca on 09.10.2025.
+//
+
+#if os(macOS)
+    import ApplePackage
+    import Foundation
+
+    @Observable
+    class DeviceManager {
+        static let this = DeviceManager()
+
+        var hint: Hint?
+
+        var installingProcess: Process?
+        var devices = [DeviceCTL.Device]()
+        var selectedDeviceID: String?
+
+        var selectedDevice: DeviceCTL.Device? {
+            devices.first(where: { $0.id == selectedDeviceID })
+        }
+
+        func loadDevices() async {
+            resetError()
+            do {
+                devices = try await DeviceCTL.listDevices()
+                    .filter { [.iPad, .iPhone].contains($0.type) }
+                    .sorted(by: { $0.lastConnectionDate > $1.lastConnectionDate })
+                if selectedDeviceID == nil {
+                    selectedDeviceID = devices.first?.id
+                }
+            } catch {
+                updateError(error)
+            }
+        }
+
+        func install(ipa: URL, to device: DeviceCTL.Device) async {
+            resetError()
+            let process = Process()
+            installingProcess = process
+            defer { installingProcess = nil }
+            do {
+                try await DeviceCTL.install(ipa: ipa, to: device, process: process)
+            } catch {
+                updateError(error)
+            }
+        }
+
+        func loadApps(for device: DeviceCTL.Device, bundleID: String? = nil) async -> [DeviceCTL.App] {
+            resetError()
+            do {
+                let apps = try await DeviceCTL.listApps(for: device, bundleID: bundleID)
+                    .filter { !$0.hidden && !$0.internalApp && !$0.appClip && $0.removable }
+                return apps
+            } catch {
+                updateError(error)
+                return []
+            }
+        }
+
+        private func resetError() {
+            hint = nil
+        }
+
+        private func updateError(_ error: Error) {
+            let errorMessages = [error.localizedDescription] + (error as NSError).underlyingErrors.enumerated().map { i, e in
+                Array(repeating: "  ", count: i).joined() + "▸" + e.localizedDescription
+            }
+            hint = .init(message: errorMessages.joined(separator: "\n"), color: .red)
+        }
+    }
+
+    extension DeviceCTL.DeviceType {
+        var symbol: String {
+            switch self {
+            case .iPhone:
+                return "iphone"
+            case .iPad:
+                return "ipad"
+            case .appleWatch:
+                return "applewatch"
+            }
+        }
+
+        var osVersionPrefix: String {
+            switch self {
+            case .iPhone:
+                return "iOS"
+            case .iPad:
+                return "iPadOS"
+            case .appleWatch:
+                return "watchOS"
+            }
+        }
+    }
+#endif
