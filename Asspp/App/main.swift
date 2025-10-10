@@ -121,17 +121,19 @@ private struct App: SwiftUI.App {
     #endif
 
     var body: some Scene {
-        WindowGroup(id: "main-window") {
-            #if os(macOS)
+        #if os(macOS)
+            WindowGroup(id: "main-window") {
                 MainView()
-            #else
+            }
+            .windowResizability(.contentSize)
+        #else
+            WindowGroup(id: "main-window") {
                 if #available(iOS 26.0, *) {
                     NewMainView()
                 } else {
                     MainView()
                 }
-            #endif
-        }
-        .windowResizability(.contentSize)
+            }
+        #endif
     }
 }
