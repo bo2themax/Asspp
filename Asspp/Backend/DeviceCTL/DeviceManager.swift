@@ -103,7 +103,7 @@
 
     extension Error {
         var failureMessages: [String] {
-            [localizedDescription, (self as NSError).localizedFailureReason].compactMap { $0 }
+            [localizedDescription, (self as NSError).userInfo[NSLocalizedFailureReasonErrorKey] as? String].compactMap { $0 }
         }
     }
 #endif
