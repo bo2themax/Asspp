@@ -28,7 +28,7 @@ struct PackageView: View {
         @State var error: String = ""
     #endif
     #if os(macOS)
-        @State private var macControlMessage = ""
+        @State private var copied = false
     #endif
 
     @StateObject var vm = AppStore.this
@@ -45,6 +45,9 @@ struct PackageView: View {
             }
 
             if pkg.completed {
+                #if os(macOS)
+                    DeviceCTLInstallSection(ipaFile: url, software: pkg.package.software)
+                #endif
                 #if os(iOS)
                     Section {
                         Button("Install") {
@@ -81,29 +84,41 @@ struct PackageView: View {
                                 .foregroundStyle(.red)
                         }
                     }
-                #elseif os(macOS)
-                    Section {
-                        Button("Show in Finder") {
-                            NSWorkspace.shared.activateFileViewerSelecting([url])
-                            macControlMessage = String(localized: "Finder opened.")
-                        }
-                        Button("Copy File Path") {
-                            let pasteboard = NSPasteboard.general
-                            pasteboard.clearContents()
-                            pasteboard.setString(url.path, forType: .string)
-                            macControlMessage = String(localized: "Path copied to clipboard.")
-                        }
-                    } header: {
-                        Text("Control")
-                    } footer: {
-                        Text(macControlMessage.isEmpty ? String(localized: "Use Finder to inspect the IPA on macOS.") : macControlMessage)
-                    }
                 #endif
 
                 Section {
                     NavigationLink("Content Viewer") {
                         FileListView(packageURL: pkg.targetLocation)
                     }
+                    #if os(macOS)
+                        HStack {
+                            Button {
+                                NSWorkspace.shared.activateFileViewerSelecting([url])
+                            } label: {
+                                Text(url.path)
+                                    .multilineTextAlignment(.leading)
+                            }
+                            .help("Show in Finder")
+                            .buttonStyle(.borderless)
+                            .tint(.accentColor)
+                            Spacer()
+                            Button {
+                                let pasteboard = NSPasteboard.general
+                                pasteboard.clearContents()
+                                pasteboard.setString(url.path, forType: .string)
+                                copied = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    copied = false
+                                }
+                            } label: {
+                                Image(systemName: copied ? "checkmark" : "document.on.document")
+                                    .contentTransition(.symbolEffect(.replace))
+                            }
+                            .help("Copy File Path")
+                            .buttonStyle(.borderless)
+                            .tint(.accentColor)
+                        }
+                    #endif
                 } header: {
                     Text("Analysis")
                 } footer: {
@@ -162,5 +177,10 @@ struct PackageView: View {
             }
         }
         .navigationTitle(pkg.package.software.name)
+        .task {
+            #if os(macOS)
+                await DeviceManager.this.loadDevices()
+            #endif
+        }
     }
 }

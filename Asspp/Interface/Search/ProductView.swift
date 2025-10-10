@@ -37,8 +37,7 @@ struct ProductView: View {
     @State var licenseHint: String = ""
     @State var acquiringLicense = false
     @State var showLicenseAlert = false
-    @State var hint: String = ""
-    @State var hintColor: Color?
+    @State var hint: Hint?
 
     let sizeFormatter: ByteCountFormatter = {
         let formatter = ByteCountFormatter()
@@ -188,11 +187,11 @@ struct ProductView: View {
         } header: {
             Text("Download")
         } footer: {
-            if hint.isEmpty {
-                Text("Package can be installed later in download page.")
+            if let hint {
+                Text(hint.message)
+                    .foregroundColor(hint.color)
             } else {
-                Text(hint)
-                    .foregroundColor(hintColor)
+                Text("Package can be installed later in download page.")
             }
         }
     }
@@ -205,8 +204,7 @@ struct ProductView: View {
                 try await dvm.startDownload(for: archive.package, accountID: account.id)
                 await MainActor.run {
                     obtainDownloadURL = false
-                    hint = String(localized: "Download Requested")
-                    hintColor = nil
+                    hint = Hint(message: String(localized: "Download Requested"), color: nil)
                     showDownloadPage = true
                 }
             } catch ApplePackageError.licenseRequired where archive.package.software.price == 0 && !acquiringLicense {
@@ -217,8 +215,7 @@ struct ProductView: View {
             } catch {
                 DispatchQueue.main.async {
                     obtainDownloadURL = false
-                    hint = String(localized: "Unable to retrieve download url, please try again later.") + "\n" + error.localizedDescription
-                    hintColor = .red
+                    hint = Hint(message: String(localized: "Unable to retrieve download url, please try again later.") + "\n" + error.localizedDescription, color: .red)
                 }
             }
         }

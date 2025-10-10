@@ -14,8 +14,7 @@ struct ProductVersionView: View {
 
     @StateObject var dvm = Downloads.this
     @State var obtainDownloadURL: Bool = false
-    @State var hint: String = ""
-    @State var hintColor: Color?
+    @State var hint: Hint?
 
     var body: some View {
         if let req = dvm.downloadRequest(forArchive: package) {
@@ -41,9 +40,9 @@ struct ProductVersionView: View {
                         }
                     }
 
-                    if !hint.isEmpty {
-                        Text(hint)
-                            .foregroundColor(hintColor)
+                    if let hint {
+                        Text(hint.message)
+                            .foregroundColor(hint.color)
                     }
                 }
             }
@@ -59,14 +58,12 @@ struct ProductVersionView: View {
 
                 await MainActor.run {
                     obtainDownloadURL = false
-                    hint = String(localized: "Download Requested")
-                    hintColor = nil
+                    hint = Hint(message: String(localized: "Download Requested"), color: nil)
                 }
             } catch {
                 DispatchQueue.main.async {
                     obtainDownloadURL = false
-                    hint = String(localized: "Unable to retrieve download url, please try again later.") + "\n" + error.localizedDescription
-                    hintColor = .red
+                    hint = Hint(message: String(localized: "Unable to retrieve download url, please try again later.") + "\n" + error.localizedDescription, color: .red)
                 }
             }
         }
