@@ -38,13 +38,16 @@ struct AddAccountView: View {
                         .textContentType(.password)
                     #endif
                 } else {
-                    TextField("Password", text: $password)
+                    TextField(text: $password) {
+                        Text("Password")
+                            .font(.body)
+                    }
                     #if os(iOS)
-                        .disableAutocorrection(true)
-                        .autocapitalization(.none)
-                        .textContentType(.password)
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
+                    .textContentType(.password)
                     #endif
-                        .font(.system(.footnote, design: .monospaced))
+                    .font(.body.monospaced())
                 }
             } header: {
                 HStack {
@@ -77,6 +80,9 @@ struct AddAccountView: View {
                 if openProgress {
                     ForEach([UUID()], id: \.self) { _ in
                         ProgressView()
+                        #if os(macOS)
+                            .controlSize(.small)
+                        #endif
                     }
                 } else {
                     Button("Authenticate") {

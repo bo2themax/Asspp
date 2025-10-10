@@ -1213,6 +1213,7 @@
       }
     },
     "Installer not found, please make sure Xcode is installed once" : {
+      "comment" : "CoreDeviceError when devicectl is not found",
       "localizations" : {
         "en" : {
           "stringUnit" : {
