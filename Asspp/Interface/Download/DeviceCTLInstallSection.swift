@@ -49,7 +49,7 @@
                     .disabled(isLoading || dm.installingProcess != nil)
                 }
             } footer: {
-                VStack {
+                VStack(alignment: .leading) {
                     if let installed {
                         Text("Installed Version: \(installed.version) (\(installed.bundleVersion))")
                     }
@@ -93,6 +93,9 @@
             guard let device = dm.selectedDevice else { return }
             Task {
                 installSuccess = await dm.install(ipa: ipaFile, to: device)
+                guard installSuccess else {
+                    return
+                }
                 await fetchInstalledApp()
                 try? await Task.sleep(for: .seconds(1))
                 installSuccess = false // hide symbol

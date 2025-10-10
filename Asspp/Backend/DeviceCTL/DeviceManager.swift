@@ -68,8 +68,10 @@
         }
 
         private func updateError(_ error: Error) {
-            let errorMessages = [error.localizedDescription] + (error as NSError).underlyingErrors.enumerated().map { i, e in
-                Array(repeating: "  ", count: i).joined() + "▸" + e.localizedDescription
+            let allErrorDescriptions = ([error] + (error as NSError).underlyingErrors).flatMap(\.failureMessages)
+
+            let errorMessages = allErrorDescriptions.enumerated().map { i, e in
+                Array(repeating: "  ", count: i).joined() + "▸" + e
             }
             hint = .init(message: errorMessages.joined(separator: "\n"), color: .red)
         }
@@ -96,6 +98,12 @@
             case .appleWatch:
                 return "watchOS"
             }
+        }
+    }
+
+    extension Error {
+        var failureMessages: [String] {
+            [localizedDescription, (self as NSError).localizedFailureReason].compactMap { $0 }
         }
     }
 #endif

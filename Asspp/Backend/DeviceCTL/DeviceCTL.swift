@@ -143,6 +143,7 @@
             }
             self.init(domain: domain, code: code, userInfo: [
                 NSLocalizedDescriptionKey: codable["userInfo"][NSLocalizedDescriptionKey]["string"].value,
+                NSLocalizedFailureReasonErrorKey: codable["userInfo"][NSLocalizedFailureReasonErrorKey]["string"].value,
                 NSUnderlyingErrorKey: NSError(codable: codable["userInfo"]["NSUnderlyingError"]["error"]) as Any,
             ])
         }
