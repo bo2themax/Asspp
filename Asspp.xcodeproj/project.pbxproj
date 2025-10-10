@@ -30,8 +30,20 @@
 		80CD64EA2C42A7E80073E206 /* Asspp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Asspp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		50669D0F2E99051F007E662F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			platformFiltersByRelativePath = {
+				LaunchScreen.storyboard = (
+					ios,
+				);
+			};
+			target = 50D44D012C3F91F700CF6A69 /* Asspp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5081AB832E77CD1800F6E9F0 /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
+		5081AB832E77CD1800F6E9F0 /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (50669D0F2E99051F007E662F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
 		5081AB952E77CD1800F6E9F0 /* Backend */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Backend; sourceTree = "<group>"; };
 		5081AB982E77CD1800F6E9F0 /* Extension */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extension; sourceTree = "<group>"; };
 		5081ABAF2E77CD1800F6E9F0 /* Interface */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Interface; sourceTree = "<group>"; };
