@@ -12,7 +12,12 @@
     enum DeviceCTL {
         private static let executablePath = "/Library/Developer/PrivateFrameworks/CoreDevice.framework/Versions/A/Resources/bin/devicectl"
 
-        private static func run(_ args: [String], process: Process = Process()) -> Bool {
+        private static func run(_ args: [String], process: Process = Process()) throws -> Bool {
+            guard FileManager.default.fileExists(atPath: executablePath) else {
+                throw NSError(domain: "com.apple.dt.CoreDeviceError", code: -1, userInfo: [
+                    NSLocalizedDescriptionKey: String(localized: "Installer not found, please make sure Xcode is installed once", comment: "CoreDeviceError when devicectl is not found"),
+                ])
+            }
             do {
                 process.executableURL = URL(filePath: executablePath)
                 process.arguments = args
@@ -22,6 +27,7 @@
                     process.terminationReason == .exit
                 else {
                     logger.error("devicectl exited with error")
+                    // could be terminated by user
                     return false
                 }
                 // skip checking status to read error from devicectl
@@ -32,7 +38,7 @@
             }
         }
 
-        private static func getJson<T: Codable>(_ args: [String], process: Process = Process()) -> T? {
+        private static func getJson(_ args: [String], process: Process = Process()) throws -> AnyCodable {
             let tempo = FileManager.default.temporaryDirectory
             let filename = UUID().uuidString
             let temporaryJsonFile = tempo
@@ -45,16 +51,11 @@
                 "-j", "tmp/\(filename).json", // will be prefixed with sandbox path by system
                 "-q",
             ]
-            guard run(arguments, process: process) else {
-                return nil
+            guard try run(arguments, process: process) else {
+                return AnyCodable(nil)
             }
-            do {
-                let jsonData = try Data(contentsOf: temporaryJsonFile)
-                return try JSONDecoder().decode(T.self, from: jsonData)
-            } catch {
-                logger.error("devicectl exited with error: \(error)")
-                return nil
-            }
+            let jsonData = try Data(contentsOf: temporaryJsonFile)
+            return try JSONDecoder().decode(AnyCodable.self, from: jsonData)
         }
     }
 
@@ -63,9 +64,7 @@
     extension DeviceCTL {
         @concurrent
         static func listDevices() async throws -> [Device] {
-            guard let result: AnyCodable = getJson(["list", "devices"]) else {
-                return []
-            }
+            let result = try getJson(["list", "devices"])
             if let error = NSError(codable: result["error"]) {
                 throw error
             }
@@ -79,9 +78,7 @@
                 "-d", device.id,
                 ipa.path,
             ]
-            guard let codable: AnyCodable = getJson(arguments, process: process) else {
-                return
-            }
+            let codable = try getJson(arguments, process: process)
 
             if let error = NSError(codable: codable["error"]) {
                 throw error
@@ -96,13 +93,11 @@
                     "--bundle-id", bundleID,
                 ])
             }
-            guard let result: AnyCodable = getJson(arguments) else {
-                return []
-            }
-            if let error = NSError(codable: result["error"]) {
+            let codable = try getJson(arguments)
+            if let error = NSError(codable: codable["error"]) {
                 throw error
             }
-            let apps = result["result"]["apps"].asArray().compactMap(App.init(_:))
+            let apps = codable["result"]["apps"].asArray().compactMap(App.init(_:))
             return apps
         }
         /*

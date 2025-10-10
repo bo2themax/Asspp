@@ -177,10 +177,5 @@ struct PackageView: View {
             }
         }
         .navigationTitle(pkg.package.software.name)
-        .task {
-            #if os(macOS)
-                await DeviceManager.this.loadDevices()
-            #endif
-        }
     }
 }

@@ -1212,6 +1212,22 @@
         }
       }
     },
+    "Installer not found, please make sure Xcode is installed once" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installer not found, please make sure Xcode is installed once"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没找着安装器，装完 Xcode 再来刷新下"
+          }
+        }
+      }
+    },
     "Keyword" : {
       "localizations" : {
         "en" : {
