@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-ios:
     runs-on: macos-26
 
     steps:
@@ -32,3 +32,29 @@ jobs:
         with:
           name: Asspp.ipa
           path: Asspp.ipa
+
+  build-osx:
+    runs-on: macos-26
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26
+        run: sudo xcode-select -s /Applications/Xcode_26.0.app
+
+      - name: Install Procursus
+        uses: dhinakg/procursus-action@main
+        with:
+          packages: ldid findutils sed coreutils make
+
+      - name: Build
+        run: |
+          chmod +x Resources/Scripts/compile.release.osx.sh
+          ./Resources/Scripts/compile.release.osx.sh "$(pwd)" "$(pwd)/Asspp.zip"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Asspp.zip
+          path: Asspp.zip
