@@ -15,7 +15,7 @@
         private static func run(_ args: [String], process: Process = Process()) throws -> Bool {
             guard FileManager.default.fileExists(atPath: executablePath) else {
                 throw NSError(domain: "com.apple.dt.CoreDeviceError", code: -1, userInfo: [
-                    NSLocalizedDescriptionKey: "Installer not found, please make sure Xcode is installed once",
+                    NSLocalizedDescriptionKey: String(localized: "Installer not found, please make sure Xcode is installed once", comment: "CoreDeviceError when devicectl is not found"),
                 ])
             }
             do {

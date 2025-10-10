@@ -18,9 +18,10 @@
         let ipaFile: URL
         let software: Software
         var body: some View {
-            if !dm.devices.isEmpty {
-                section
-            }
+            section
+                .task {
+                    await dm.loadDevices()
+                }
         }
 
         var section: some View {
@@ -28,7 +29,7 @@
                 installerContent
             } header: {
                 HStack {
-                    Label("Control", systemImage: installSuccess ? "checkmark" : dm.selectedDevice?.type.symbol ?? "")
+                    Label("Control", systemImage: installSuccess ? "checkmark" : dm.selectedDevice?.type.symbol ?? "iphone")
                         .contentTransition(.symbolEffect(.replace))
                     Spacer()
 
@@ -37,17 +38,15 @@
                             .progressViewStyle(.circular)
                             .controlSize(.small)
                     }
-                    if !dm.devices.isEmpty {
-                        Button {
-                            wiggle.toggle()
-                            reloadDevice()
-                        } label: {
-                            Label("Refresh Devices", systemImage: "arrow.clockwise")
-                                .symbolEffect(.wiggle, options: .nonRepeating, value: wiggle)
-                        }
-                        .buttonStyle(.borderless)
-                        .disabled(isLoading || dm.installingProcess != nil)
+                    Button {
+                        wiggle.toggle()
+                        reloadDevice()
+                    } label: {
+                        Label("Refresh Devices", systemImage: "arrow.clockwise")
+                            .symbolEffect(.wiggle, options: .nonRepeating, value: wiggle)
                     }
+                    .buttonStyle(.borderless)
+                    .disabled(isLoading || dm.installingProcess != nil)
                 }
             } footer: {
                 VStack {
@@ -78,7 +77,7 @@
                     Button(dm.installingProcess != nil ? "Cancel" : "Install") {
                         installOrStop()
                     }
-                    .disabled(dm.selectedDevice == nil || isLoading || dm.hint?.isRed == true)
+                    .disabled(dm.selectedDevice == nil || isLoading || dm.hint?.isRed == true || dm.devices.isEmpty)
                 }
             }
             .task(id: dm.selectedDevice?.id) {
@@ -116,6 +115,7 @@
                 installed = nil
                 await dm.loadDevices()
                 await fetchInstalledApp()
+                isLoading = false
             }
         }
     }
