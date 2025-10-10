@@ -30,7 +30,10 @@ struct AccountView: View {
                     .navigationTitle("Accounts")
                     .toolbar { macToolbar }
             }
-            .sheet(isPresented: $addAccount) { AddAccountView() }
+            .sheet(isPresented: $addAccount) {
+                AddAccountView()
+                    .frame(idealHeight: 200)
+            }
             .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
         }
 
