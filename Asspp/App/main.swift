@@ -96,8 +96,18 @@ App.main()
 
 #if canImport(AppKit) && !canImport(UIKit)
     import AppKit
+    import Combine
 
     class AppDelegate: NSObject, NSApplicationDelegate {
+        var downloadsObserver: AnyCancellable?
+        func applicationDidFinishLaunching(_ notification: Notification) {
+            downloadsObserver = Downloads.this.objectWillChange
+                .sink {
+                    let downloadingTaskCount = Downloads.this.runningTaskCount
+                    NSApp.dockTile.badgeLabel = downloadingTaskCount > 0 ? "\(downloadingTaskCount)" : nil
+                }
+        }
+
         func applicationWillResignActive(_ notification: Notification) {
             // Handle app going to background on macOS
         }
@@ -107,6 +117,10 @@ App.main()
             if let mainWindow = NSApplication.shared.windows.first(where: { $0.identifier?.rawValue == "main-window" }) {
                 mainWindow.styleMask = [.titled, .closable, .fullSizeContentView, .fullScreen]
             }
+        }
+
+        func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+            Downloads.this.runningTaskCount == 0
         }
     }
 #endif
