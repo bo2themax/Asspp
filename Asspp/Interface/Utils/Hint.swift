@@ -11,9 +11,3 @@ struct Hint: Equatable, Hashable {
     let message: String
     let color: Color?
 }
-
-extension Hint {
-    var isRed: Bool {
-        color == .red
-    }
-}

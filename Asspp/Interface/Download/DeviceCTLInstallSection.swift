@@ -77,7 +77,7 @@
                     Button(dm.installingProcess != nil ? "Cancel" : "Install") {
                         installOrStop()
                     }
-                    .disabled(dm.selectedDevice == nil || isLoading || dm.hint?.isRed == true || dm.devices.isEmpty)
+                    .disabled(dm.selectedDevice == nil || isLoading || dm.devices.isEmpty)
                 }
             }
             .task(id: dm.selectedDevice?.id) {
