@@ -84,7 +84,7 @@
       }
     },
     "%lld" : {
-
+      "shouldTranslate" : false
     },
     "%lld Results" : {
       "localizations" : {
@@ -231,7 +231,14 @@
       }
     },
     "Accounts are stored securely in your Keychain and can be removed at any time from the detail view." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的账户将安全地储存在系统钥匙串中。你可以随时删除。"
+          }
+        }
+      }
     },
     "Acquire License" : {
       "localizations" : {
@@ -282,7 +289,14 @@
       }
     },
     "Add an Apple ID to start downloading IPA packages." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加一个 Apple ID 来下载软件安装包。"
+          }
+        }
+      }
     },
     "All Regions" : {
       "localizations" : {
@@ -546,9 +560,6 @@
         }
       }
     },
-    "Configured Accounts" : {
-
-    },
     "Content - %@" : {
       "localizations" : {
         "en" : {
@@ -614,7 +625,14 @@
       }
     },
     "Copy File Path" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制文件路径"
+          }
+        }
+      }
     },
     "Country Code" : {
       "localizations" : {
@@ -851,7 +869,14 @@
       }
     },
     "Email" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "邮箱"
+          }
+        }
+      }
     },
     "Email (Apple ID)" : {
       "localizations" : {
@@ -1255,9 +1280,6 @@
         }
       }
     },
-    "Manage the Apple IDs used for downloading IPA packages." : {
-
-    },
     "More" : {
       "localizations" : {
         "en" : {
@@ -1291,7 +1313,14 @@
       }
     },
     "No Accounts" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无账户"
+          }
+        }
+      }
     },
     "No accounts yet." : {
       "localizations" : {
@@ -1357,8 +1386,15 @@
         }
       }
     },
-    "On macOS, install certificates through System Preferences > Security & Privacy > General." : {
-
+    "On macOS, install certificates through System Keychain." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 macOS 中，请使用钥匙串访问来安装证书。"
+          }
+        }
+      }
     },
     "Oops" : {
       "comment" : "An alert title.",
@@ -1647,7 +1683,14 @@
       }
     },
     "Region" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "区域"
+          }
+        }
+      }
     },
     "Request Download" : {
       "localizations" : {
@@ -1922,7 +1965,14 @@
       }
     },
     "Show Certificate in Finder" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在访达中显示证书"
+          }
+        }
+      }
     },
     "Show Download" : {
       "localizations" : {
@@ -1941,7 +1991,14 @@
       }
     },
     "Show in Finder" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在访达中显示"
+          }
+        }
+      }
     },
     "Show Password" : {
       "comment" : "The label of a button that toggles the visibility of the password.",
@@ -2012,7 +2069,14 @@
       }
     },
     "Storefront" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前台"
+          }
+        }
+      }
     },
     "Success" : {
       "localizations" : {

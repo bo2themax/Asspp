@@ -25,40 +25,13 @@ struct AccountView: View {
     #if os(macOS)
         private var macOSBody: some View {
             NavigationStack {
-                VStack(alignment: .leading, spacing: 20) {
-                    header
-                    accountsTable
-                    footer
-                }
-                .padding(24)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                .background(.regularMaterial)
-                .navigationTitle("Accounts")
-                .toolbar { macToolbar }
+                accountsTable
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .navigationTitle("Accounts")
+                    .toolbar { macToolbar }
             }
             .sheet(isPresented: $addAccount) { AddAccountView() }
-            #if os(macOS)
-                .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
-            #endif
-        }
-
-        @ViewBuilder
-        private var header: some View {
-            HStack(alignment: .firstTextBaseline, spacing: 16) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Configured Accounts")
-                        .font(.largeTitle.bold())
-                    Text("Manage the Apple IDs used for downloading IPA packages.")
-                        .foregroundStyle(.secondary)
-                }
-                Spacer()
-                Button {
-                    addAccount.toggle()
-                } label: {
-                    Label("Add Account", systemImage: "plus")
-                }
-                .buttonStyle(.borderedProminent)
-            }
+            .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
         }
 
         private var accountsTable: some View {

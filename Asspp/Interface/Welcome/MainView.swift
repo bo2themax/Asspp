@@ -38,7 +38,7 @@ struct MainView: View {
                         detailView(for: .home)
                     }
                 }
-                .frame(minWidth: 640, minHeight: 480)
+                .frame(minWidth: 400, minHeight: 250)
             }
         }
 

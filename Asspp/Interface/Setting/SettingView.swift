@@ -88,7 +88,7 @@ struct SettingView: View {
                 } header: {
                     Text("SSL")
                 } footer: {
-                    Text("On macOS, install certificates through System Preferences > Security & Privacy > General.")
+                    Text("On macOS, install certificates through System Keychain.")
                 }
             #endif
 

@@ -124,7 +124,6 @@ private struct App: SwiftUI.App {
         WindowGroup(id: "main-window") {
             #if os(macOS)
                 MainView()
-                    .frame(minWidth: 900, minHeight: 600)
             #else
                 if #available(iOS 26.0, *) {
                     NewMainView()
@@ -133,5 +132,6 @@ private struct App: SwiftUI.App {
                 }
             #endif
         }
+        .windowResizability(.contentSize)
     }
 }
