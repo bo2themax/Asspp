@@ -19,7 +19,7 @@ struct ArchivePreviewView: View {
             KFImage(URL(string: archive.software.artworkUrl))
                 .antialiased(true)
                 .resizable()
-                .cornerRadius(8)
+                .cornerRadius(0.2184466 * (preferredIconSize ?? 50))
                 .frame(width: preferredIconSize ?? 50, height: preferredIconSize ?? 50, alignment: .center)
                 .shadow(radius: 1)
             VStack(alignment: .leading, spacing: 2) {
