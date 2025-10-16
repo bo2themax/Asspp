@@ -46,10 +46,29 @@
 
 ## 🚀 快速上手
 
-- 前往 [Releases](https://github.com/Lakr233/Asspp/releases) 页面下载最新版本。
-- 或者在 [SideStore](https://sidestore.io) 中添加源
+# iPhone
 
-  `https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Repos/sidestore.json`
+- 前往 [Releases](https://github.com/Lakr233/Asspp/releases) 页面下载最新版本 Asspp.ipa
+- 使用签名软件重新签名之后安装
+- 或者此[快捷指令](https://www.icloud.com/shortcuts/d3c28f125b724a2da136d560fcf360dc)
+  > 复制链接后运行或者在共享页添加后，直接在打开链接时选择 Open In Sidestore
+
+# Mac
+- 前往 [Releases](https://github.com/Lakr233/Asspp/releases) 页面下载最新版本 Asspp.zip
+- 解压后打开 Asspp.app
+
+
+### 首次运行与信任应用（推荐步骤）
+1. 尝试双击打开应用；若出现“无法打开，因为无法确认开发者”或类似提示：
+   - 在 Finder 中定位到 Asspp.app，按住 Control 键并点击应用图标，选择“打开”，在弹窗中再次点击“打开”。此操作会为该应用建立信任记录，通常只需执行一次。
+2. 如果 Control+点击无效或仍受阻：
+   - 打开 系统设置 -> 隐私与安全（或“系统偏好设置 -> 安全性与隐私”旧版 macOS），在“通用/安全性”区域的底部查找被阻止的应用并点击“仍要打开”或“允许”，可能需要输入管理员密码。
+3. 如应用运行后提示缺少权限：
+   - 在 系统设置 -> 隐私与安全 中为 Asspp 授予相应权限（例如“文件与文件夹”、“完全磁盘访问”等），按提示重启应用。
+4. 建议从本仓库 Releases 下载并核验发布信息，确保来源可信后再按上述方法信任并打开应用。
+
+> 说明：以上步骤是 macOS Gatekeeper 的标准处理方式，旨在保护系统安全。按照推荐流程操作可以最小化风险并确保应用能正常运行。
+
 
 ## 📋 已构建的包
 

@@ -48,10 +48,30 @@ For a command-line or library version of Asspp, check out [ApplePackage](https:/
 
 ## 🚀 Usage
 
-- Download the latest release from [Releases](https://github.com/Lakr233/Asspp/releases).
-- Or add this source in [SideStore](https://sidestore.io)
+# iPhone
 
-  `https://raw.githubusercontent.com/Lakr233/Asspp/refs/heads/main/Resources/Repos/sidestore.json`
+- Visit the Releases page (https://github.com/Lakr233/Asspp/releases) and download the latest Asspp.ipa
+- Re-sign the IPA with a signing tool, then install it
+- Or use this Shortcut: https://www.icloud.com/shortcuts/d3c28f125b724a2da136d560fcf360dc
+  > Copy the link and run it, or add the shortcut to your share sheet; when opening the link choose "Open in Sidestore"
+
+# Mac
+
+- Visit the Releases page (https://github.com/Lakr233/Asspp/releases) and download the latest Asspp.zip
+- Unzip and open Asspp.app
+
+### First Run and Trusting the App (Recommended)
+
+1. Try double-clicking to open the app. If you see "App can’t be opened because the developer cannot be verified" or a similar message:
+   - In Finder, locate Asspp.app, Control-click (or right-click) the app and choose "Open", then click "Open" again in the dialog. This will create a one-time trust exception for the app.
+2. If Control-clicking does not work or the app is still blocked:
+   - Open System Settings -> Privacy & Security (or System Preferences -> Security & Privacy on older macOS). In the General/Security section, look for the blocked app and click "Open Anyway" or "Allow". You may need to enter an administrator password.
+3. If the app runs but requests additional permissions:
+   - Grant the required permissions (for example: Files and Folders, Full Disk Access) in System Settings -> Privacy & Security, then restart the app if prompted.
+4. Recommendation: Download from this repository's Releases and verify the release details to ensure the source is trusted before trusting and opening the app.
+
+> These steps follow macOS Gatekeeper practices and help minimize security risks while allowing you to run unsigned or self-signed apps.
+
 
 ## 📋 Prebuilt Package
 
