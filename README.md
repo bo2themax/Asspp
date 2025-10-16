@@ -9,6 +9,7 @@ For a command-line or library version of Asspp, check out [ApplePackage](https:/
 ## 👀 Preview
 
 ![Preview](./Resources/Screenshots/README_PREVIEW.png)
+![Preview Mac](./Resources/Screenshots/README_PREVIEW_MAC.png)
 
 ## 🌟 Key Features
 
@@ -66,9 +67,7 @@ For a command-line or library version of Asspp, check out [ApplePackage](https:/
    - In Finder, locate Asspp.app, Control-click (or right-click) the app and choose "Open", then click "Open" again in the dialog. This will create a one-time trust exception for the app.
 2. If Control-clicking does not work or the app is still blocked:
    - Open System Settings -> Privacy & Security (or System Preferences -> Security & Privacy on older macOS). In the General/Security section, look for the blocked app and click "Open Anyway" or "Allow". You may need to enter an administrator password.
-3. If the app runs but requests additional permissions:
-   - Grant the required permissions (for example: Files and Folders, Full Disk Access) in System Settings -> Privacy & Security, then restart the app if prompted.
-4. Recommendation: Download from this repository's Releases and verify the release details to ensure the source is trusted before trusting and opening the app.
+3. Recommendation: Download from this repository's Releases and verify the release details to ensure the source is trusted before trusting and opening the app.
 
 > These steps follow macOS Gatekeeper practices and help minimize security risks while allowing you to run unsigned or self-signed apps.
 

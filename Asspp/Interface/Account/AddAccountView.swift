@@ -105,6 +105,7 @@ struct AddAccountView: View {
         .animation(.spring, value: codeRequired)
         #if os(iOS)
             .listStyle(.insetGrouped)
+            .navigationBarTitleDisplayMode(.inline)
         #endif
             .navigationTitle("Add Account")
     }

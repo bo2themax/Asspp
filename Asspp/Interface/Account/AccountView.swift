@@ -129,7 +129,11 @@ struct AccountView: View {
                     }
                 }
             }
-            .sheet(isPresented: $addAccount) { AddAccountView() }
+            .sheet(isPresented: $addAccount) {
+                NavigationView {
+                    AddAccountView()
+                }
+            }
         }
     #endif
 }
