@@ -6,7 +6,7 @@
 
 ## 👀 概览
 
-![截图](../../../Resources/Screenshots/README_PREVIEW.png)
+![截图](../../../Resources/Screenshots/README_PREVIEW_iPhone.png)
 ![Mac 截图](./Resources/Screenshots/README_PREVIEW_MAC.png)
 
 ## 🌟 主要功能

@@ -8,7 +8,7 @@ For a command-line or library version of Asspp, check out [ApplePackage](https:/
 
 ## 👀 Preview
 
-![Preview](./Resources/Screenshots/README_PREVIEW.png)
+![Preview](./Resources/Screenshots/README_PREVIEW_iPhone.png)
 ![Preview Mac](./Resources/Screenshots/README_PREVIEW_MAC.png)
 
 ## 🌟 Key Features
