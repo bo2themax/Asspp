@@ -76,6 +76,11 @@ For a command-line or library version of Asspp, check out [ApplePackage](https:/
 
 Check the [Releases](https://github.com/Lakr233/Asspp/releases) page.
 
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Lakr233/Asspp&type=date&legend=top-left)](https://www.star-history.com/#Lakr233/Asspp&type=date&legend=top-left)
+
 ## 🧑‍⚖️ License
 
 Starting from version 2.2.16, the project is licensed under [MIT](./LICENSE).
