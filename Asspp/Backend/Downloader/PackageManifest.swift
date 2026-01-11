@@ -45,6 +45,19 @@ class PackageManifest: ObservableObject, Identifiable, Codable, Hashable, Equata
 
     var completed: Bool { state.status == .completed }
 
+    func waitForCompletion(timeout: TimeInterval? = nil) async {
+        let start = Date().timeIntervalSince1970
+        while true {
+            if let timeout, Date().timeIntervalSince1970 - start > timeout {
+                return
+            }
+            try? await Task.sleep(for: .seconds(0.5))
+            if [.failed, .completed].contains(state.status) {
+                return
+            }
+        }
+    }
+
     init(account: AppStore.UserAccount, package: AppStore.AppPackage, downloadOutput: ApplePackage.DownloadOutput) {
         self.account = account
         self.package = package

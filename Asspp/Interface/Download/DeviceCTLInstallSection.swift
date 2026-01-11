@@ -1,22 +1,23 @@
-//
-//  DeviceCTLInstallSection.swift
-//  Asspp
-//
-//  Created by luca on 09.10.2025.
-//
-
 #if os(macOS)
     import ApplePackage
     import SwiftUI
 
     struct DeviceCTLInstallSection: View {
-        @State var dm = DeviceManager.this
+        @State var dm = DeviceManager()
         @State var installed: DeviceCTL.App?
         @State var isLoading = false
         @State var wiggle: Bool = false
         @State var installSuccess = false
-        let ipaFile: URL
-        let software: Software
+        let package: PackageManifest
+
+        var ipaFile: URL {
+            package.targetLocation
+        }
+
+        var software: Software {
+            package.package.software
+        }
+
         var body: some View {
             section
                 .task {
@@ -96,6 +97,7 @@
                 guard installSuccess else {
                     return
                 }
+                dm.markAppAsInstalled(package: package.package, account: package.account.account, to: device)
                 await fetchInstalledApp()
                 try? await Task.sleep(for: .seconds(1))
                 installSuccess = false // hide symbol
