@@ -51,7 +51,7 @@ class PackageManifest: ObservableObject, Identifiable, Codable, Hashable, Equata
             if let timeout, Date().timeIntervalSince1970 - start > timeout {
                 return
             }
-            try? await Task.sleep(for: .seconds(0.5))
+            try? await Task.sleep(nanoseconds: UInt64(5e8))
             if [.failed, .completed].contains(state.status) {
                 return
             }
