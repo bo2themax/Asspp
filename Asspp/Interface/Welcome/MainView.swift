@@ -53,6 +53,8 @@ struct MainView: View {
                 SearchView()
             case .downloads:
                 DownloadView()
+            case .installed:
+                InstalledListView()
             case .settings:
                 SettingView()
             }
@@ -64,6 +66,7 @@ struct MainView: View {
         case accounts
         case search
         case downloads
+        case installed
         case settings
 
         var id: Self { self }
@@ -78,6 +81,8 @@ struct MainView: View {
                 "Search"
             case .downloads:
                 "Downloads"
+            case .installed:
+                "Installed"
             case .settings:
                 "Settings"
             }
@@ -93,6 +98,8 @@ struct MainView: View {
                 "magnifyingglass"
             case .downloads:
                 "arrow.down.circle"
+            case .installed:
+                "square.stack.3d.up.badge.automatic.fill"
             case .settings:
                 "gear"
             }

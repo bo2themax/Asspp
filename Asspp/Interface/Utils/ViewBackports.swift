@@ -61,7 +61,7 @@ extension View {
     }
 
     @ViewBuilder
-    func onChangeCompat<Value: Equatable>(
+    func onChangeCompact<Value: Equatable>(
         of value: Value,
         initial: Bool = false,
         perform action: @escaping (Value) -> Void
@@ -72,6 +72,21 @@ extension View {
             }
         } else {
             onChange(of: value, perform: action)
+        }
+    }
+
+    @ViewBuilder
+    func hide() -> some View {}
+}
+
+public extension ToolbarContent {
+    @ToolbarContentBuilder
+    @available(iOS 16.0, macOS 16.0, *)
+    nonisolated func hideSharedBackground() -> some ToolbarContent {
+        if #available(iOS 26.0, macOS 26.0, *) {
+            sharedBackgroundVisibility(.hidden)
+        } else {
+            self
         }
     }
 }

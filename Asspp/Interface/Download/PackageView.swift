@@ -46,7 +46,7 @@ struct PackageView: View {
 
             if pkg.completed {
                 #if os(macOS)
-                    DeviceCTLInstallSection(ipaFile: url, software: pkg.package.software)
+                    DeviceCTLInstallSection(package: pkg)
                 #endif
                 #if os(iOS)
                     Section {

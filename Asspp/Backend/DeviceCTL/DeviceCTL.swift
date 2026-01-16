@@ -86,51 +86,20 @@
         }
 
         @concurrent
-        static func listApps(for device: Device, bundleID: String? = nil) async throws -> [App] {
+        static func listApps(for device: Device, bundleID: String? = nil, process: Process = .init()) async throws -> [App] {
             var arguments: [String] = "device info apps --include-all-apps -d \(device.id)".split(separator: " ").map(String.init(_:))
             if let bundleID {
                 arguments.append(contentsOf: [
                     "--bundle-id", bundleID,
                 ])
             }
-            let codable = try getJson(arguments)
+            let codable = try getJson(arguments, process: process)
             if let error = NSError(codable: codable["error"]) {
                 throw error
             }
             let apps = codable["result"]["apps"].asArray().compactMap(App.init(_:))
             return apps
         }
-        /*
-            @concurrent
-            static func getAppIcon(for app: App, device: Device, update: Bool = false) async throws -> URL {
-                let filename = "icon_\(device.id)"
-                let packageFolder = PackageManifest.packageLocation(for: app.id, version: app.version)
-                try? FileManager.default.createDirectory(at: packageFolder, withIntermediateDirectories: true)
-                let iconFile = packageFolder
-                    .appendingPathComponent(filename)
-                    .appendingPathExtension("png")
-                guard update || !FileManager.default.fileExists(atPath: iconFile.path) else {
-                    return iconFile
-                }
-                let arguments = [
-                    "device", "info", "appIcon",
-                    "-d", device.id,
-                    "--allow-placeholder", "false",
-                    "--app-bundle-id", app.bundleIdentifier,
-                    "--width", "1024", "--height", "1024",
-                    "--scale", "1",
-                    "--destination", iconFile.path, // will NOT be prefixed
-                ]
-                guard let codable: AnyCodable = getJson(arguments) else {
-                    return iconFile
-                }
-
-                if let error = NSError(codable: codable["error"]) {
-                    throw error
-                }
-                return iconFile
-            }
-         */
     }
 
     extension NSError {
